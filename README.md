@@ -1,2 +1,1 @@
-# dz-province-api
-Algerian Administrative Divisions API
+# dz-province-api - Algerian Administrative Divisions API
