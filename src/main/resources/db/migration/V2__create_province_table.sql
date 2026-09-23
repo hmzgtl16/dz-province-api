@@ -11,19 +11,16 @@
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
-CREATE TABLE province
-(
-    id   SMALLINT PRIMARY KEY,
-    slug VARCHAR(100) NOT NULL UNIQUE
+CREATE TABLE province (
+  id SMALLINT PRIMARY KEY,
+  slug VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE province_translation
-(
-    province_id SMALLINT     NOT NULL REFERENCES province (id) ON DELETE CASCADE,
-    language_id SMALLINT     NOT NULL REFERENCES language (id) ON DELETE RESTRICT,
-    name        VARCHAR(150) NOT NULL,
-    PRIMARY KEY (province_id, language_id)
+CREATE TABLE province_translation (
+  province_id SMALLINT NOT NULL REFERENCES province (id) ON DELETE CASCADE,
+  language_id SMALLINT NOT NULL REFERENCES language (id) ON DELETE RESTRICT,
+  name VARCHAR(150) NOT NULL,
+  PRIMARY KEY (province_id, language_id)
 );
 
-CREATE INDEX idx_province_translation_name_trgm
-    ON province_translation USING gin (name gin_trgm_ops);
+CREATE INDEX idx_province_translation_name_trgm ON province_translation USING gin (name gin_trgm_ops);

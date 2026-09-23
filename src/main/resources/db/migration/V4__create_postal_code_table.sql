@@ -11,15 +11,14 @@
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
-CREATE TABLE postal_code
-(
-    id              SERIAL PRIMARY KEY,
-    municipality_id INT        NOT NULL REFERENCES municipality (id) ON DELETE CASCADE,
-    code            VARCHAR(5) NOT NULL,
-    locality_name   VARCHAR(150),
-    CONSTRAINT uq_postal_code_municipality_code_locality
-        UNIQUE (municipality_id, code, locality_name)
+CREATE TABLE postal_code (
+  id SERIAL PRIMARY KEY,
+  municipality_id INT NOT NULL REFERENCES municipality (id) ON DELETE CASCADE,
+  code VARCHAR(5) NOT NULL,
+  locality_name VARCHAR(150),
+  CONSTRAINT uq_postal_code_municipality_code_locality UNIQUE (municipality_id, code, locality_name)
 );
 
 CREATE INDEX idx_postal_code_municipality_id ON postal_code (municipality_id);
+
 CREATE INDEX idx_postal_code_code ON postal_code (code);
