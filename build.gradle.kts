@@ -83,7 +83,7 @@ spotless {
         licenseHeaderFile(rootDir.resolve("spotless/license-header.yaml"), "^[^#]")
     }
     sql {
-        target("**/*.sql")
+        target("src/main/resources/db/migration/*.sql")
         targetExclude("spotless/**")
         prettier(libs.versions.prettier.get())
         licenseHeaderFile(rootDir.resolve("spotless/license-header.sql"), "^[^-]")
