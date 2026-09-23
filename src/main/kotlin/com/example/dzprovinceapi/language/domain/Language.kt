@@ -16,6 +16,7 @@
 package com.example.dzprovinceapi.language.domain
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 
 @Table(name = "language", schema = "public")
@@ -24,5 +25,6 @@ data class Language(
     val id: Short,
     val code: String,
     val name: String,
+    @Column("is_default")
     val isDefault: Boolean,
 )

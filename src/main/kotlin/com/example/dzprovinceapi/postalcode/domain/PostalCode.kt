@@ -28,5 +28,6 @@ data class PostalCode(
     @Column("municipality_id")
     val municipality: AggregateReference<Municipality, Int>,
     val code: String,
+    @Column("locality_name")
     val localityName: String,
 )
