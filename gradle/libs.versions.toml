@@ -1,5 +1,6 @@
 [versions]
 graalvm = "1.1.13"
+graalvmReachabilityMetadataRepository = "1.0.16"
 kotlin = "2.3.21"
 ktlint = "1.8.0"
 prettier = "3.9.9"
