@@ -54,6 +54,7 @@ dependencies {
     testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgresql)
+    testRuntimeOnly(libs.h2database)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 

@@ -8,8 +8,9 @@ springBoot = "4.1.1"
 springDependencyManagement = "1.1.7"
 
 [libraries]
-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 flyway-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql" }
+h2database = { group = "com.h2database", name = "h2" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect"}
 kotlin-test-junit5= { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5" }
 postgresql = { group = "org.postgresql", name = "postgresql" }
