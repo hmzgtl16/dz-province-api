@@ -99,3 +99,10 @@ spotless {
         licenseHeaderFile(rootDir.resolve("spotless/license-header.sql"), "^[^-]")
     }
 }
+
+graalvmNative {
+    metadataRepository {
+        enabled.set(true)
+        version.set(libs.versions.graalvmReachabilityMetadataRepository.get())
+    }
+}
