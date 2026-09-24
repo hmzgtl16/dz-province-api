@@ -19,3 +19,10 @@ spring:
     name: dz-province-api
   profiles:
     active: dev
+  mvc:
+    apiversion:
+        supported:
+            - 1.0
+        default: 1.0
+        use:
+            path-segment: 1
