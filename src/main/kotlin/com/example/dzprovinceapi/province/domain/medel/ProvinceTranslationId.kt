@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.domain
+package com.example.dzprovinceapi.province.domain.medel
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
-
-@Table(name = "province")
-data class Province(
-    @Id
-    val id: Short,
-    val slug: String,
+data class ProvinceTranslationId(
+    val provinceId: Short,
+    val languageId: Short,
 )

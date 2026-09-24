@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.domain
+package com.example.dzprovinceapi.province.domain.medel
 
 import com.example.dzprovinceapi.language.domain.Language
 import org.springframework.data.annotation.Id
@@ -27,9 +27,9 @@ data class ProvinceTranslation(
     @Id
     @Embedded.Nullable
     val id: ProvinceTranslationId,
-    @Column("province_id")
-    val province: AggregateReference<Province, Short>,
-    @Column("language_id")
-    val language: AggregateReference<Language, Short>,
     val name: String,
+    @Column("province_id")
+    val province: Province,
+    @Column("language_id")
+    val language: Language,
 )

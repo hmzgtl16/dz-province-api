@@ -13,9 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.domain
+package com.example.dzprovinceapi.province.domain.repository
 
-data class ProvinceTranslationId(
-    val provinceId: Short,
-    val languageId: Short,
-)
+import com.example.dzprovinceapi.province.domain.medel.Province
+import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.PagingAndSortingRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface ProvinceRepository :
+    CrudRepository<Province, Short>,
+    PagingAndSortingRepository<Province, Short> {
+    fun findProvinceById(id: Short): Province?
+}
