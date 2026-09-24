@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface ProvinceService {
-    fun list(pageable: Pageable): Page<ProvinceResponse>
+    fun getAllProvinces(pageable: Pageable): Page<ProvinceResponse>
 
     fun getById(id: Short): ProvinceResponse
 }

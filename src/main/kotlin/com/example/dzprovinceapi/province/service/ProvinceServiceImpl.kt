@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class ProvinceServiceImpl(
     private val provinceRepository: ProvinceRepository,
 ) : ProvinceService {
-    override fun list(pageable: Pageable): Page<ProvinceResponse> =
+    override fun getAllProvinces(pageable: Pageable): Page<ProvinceResponse> =
         provinceRepository.findAll(pageable).map(Province::toResponse)
 
     override fun getById(id: Short): ProvinceResponse =
