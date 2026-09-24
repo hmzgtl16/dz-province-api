@@ -15,16 +15,16 @@ server:
   port: 8081
 
 spring:
-    config:
-        activate:
-            on-profile: "dev"
-    datasource:
-        url: jdbc:postgresql://localhost:5432/dz_province_dev
-        username: dz_province_user
-        password: dz_province_password
-        driver-class-name: org.postgresql.Driver
-        name: dz_province_dev
-    flyway:
-        enabled: true
-        locations: classpath:db/migration
-        baseline-on-migrate: true
+  config:
+    activate:
+      on-profile: "dev"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dz_province_dev
+    username: dz_province_user
+    password: dz_province_password
+    driver-class-name: org.postgresql.Driver
+    name: dz_province_dev
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
