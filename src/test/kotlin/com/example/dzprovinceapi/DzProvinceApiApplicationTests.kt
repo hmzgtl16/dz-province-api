@@ -15,12 +15,16 @@
  */
 package com.example.dzprovinceapi
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
+@ActiveProfiles("test")
 class DzProvinceApiApplicationTests {
     @Test
     fun contextLoads() {
+        assertTrue(true, "The application context should load successfully.")
     }
 }
