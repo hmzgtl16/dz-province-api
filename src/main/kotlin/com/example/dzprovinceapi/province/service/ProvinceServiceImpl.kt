@@ -4,6 +4,7 @@ import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import com.example.dzprovinceapi.province.domain.medel.Province
 import com.example.dzprovinceapi.province.domain.repository.ProvinceRepository
 import com.example.dzprovinceapi.province.mapping.toResponse
+import com.example.dzprovinceapi.shared.error.ProvinceNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -17,5 +18,5 @@ class ProvinceServiceImpl(
 
     override fun getById(id: Short): ProvinceResponse =
         provinceRepository.findProvinceById(id)?.toResponse()
-            ?: throw RuntimeException("Province not found")
+            ?: throw ProvinceNotFoundException(id)
 }
