@@ -1,5 +1,6 @@
-package com.example.dzprovinceapi.province.api.dto
+package com.example.dzprovinceapi.province.api
 
+import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import com.example.dzprovinceapi.province.service.ProvinceService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
