@@ -15,7 +15,10 @@
  */
 package com.example.dzprovinceapi.province.domain.repository
 
+import com.example.dzprovinceapi.language.domain.Language
 import com.example.dzprovinceapi.province.domain.medel.Province
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
@@ -24,5 +27,10 @@ import org.springframework.stereotype.Repository
 interface ProvinceRepository :
     CrudRepository<Province, Short>,
     PagingAndSortingRepository<Province, Short> {
+    fun findAllByTranslationsLanguage(
+        language: Language,
+        pageable: Pageable,
+    ): Page<Province>
+
     fun findProvinceById(id: Short): Province?
 }
