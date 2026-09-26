@@ -11,16 +11,18 @@
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
+CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA public;
+
 CREATE TABLE province (
   id SMALLINT PRIMARY KEY,
   slug VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE province_translation (
-  province_id SMALLINT NOT NULL REFERENCES province (id) ON DELETE CASCADE,
-  language_id SMALLINT NOT NULL REFERENCES language (id) ON DELETE RESTRICT,
   name VARCHAR(150) NOT NULL,
-  PRIMARY KEY (province_id, language_id)
+  language VARCHAR(2) NOT NULL CHECK (language IN ('ar', 'fr', 'en')),
+  province_id SMALLINT NOT NULL REFERENCES province (id) ON DELETE CASCADE,
+  PRIMARY KEY (province_id, language)
 );
 
 CREATE INDEX idx_province_translation_name_trgm ON province_translation USING gin (name gin_trgm_ops);

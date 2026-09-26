@@ -17,5 +17,5 @@ package com.example.dzprovinceapi.province.domain.medel
 
 data class ProvinceTranslationId(
     val provinceId: Short,
-    val languageId: Short,
+    val language: String,
 )

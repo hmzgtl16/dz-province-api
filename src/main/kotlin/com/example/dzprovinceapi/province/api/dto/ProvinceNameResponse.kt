@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ProvinceNameResponse(
     val name: String,
-    val language: LanguageResponse,
+    val language: String,
 )

@@ -28,8 +28,8 @@ data class ProvinceTranslation(
     @Embedded.Nullable
     val id: ProvinceTranslationId,
     val name: String,
-    @Column("province_id")
-    val province: Province,
-    @Column("language_id")
     val language: Language,
+    @Column("province_id")
+    val province: AggregateReference<Province, Short>,
+
 )
