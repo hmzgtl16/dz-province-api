@@ -1,5 +1,6 @@
 package com.example.dzprovinceapi.province.service
 
+import com.example.dzprovinceapi.language.domain.Language
 import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import com.example.dzprovinceapi.province.domain.medel.Province
 import com.example.dzprovinceapi.province.domain.repository.ProvinceRepository
@@ -14,7 +15,17 @@ class ProvinceServiceImpl(
     private val provinceRepository: ProvinceRepository,
 ) : ProvinceService {
     override fun getAllProvinces(pageable: Pageable): Page<ProvinceResponse> =
-        provinceRepository.findAll(pageable).map(Province::toResponse)
+        provinceRepository
+            .findAll(pageable)
+            .map(Province::toResponse)
+
+    override fun getAllProvincesByLanguage(
+        language: Language,
+        pageable: Pageable,
+    ): Page<ProvinceResponse> =
+        provinceRepository
+            .findAllByTranslationsLanguage(language, pageable)
+            .map(Province::toResponse)
 
     override fun getById(id: Short): ProvinceResponse =
         provinceRepository.findProvinceById(id)?.toResponse()
