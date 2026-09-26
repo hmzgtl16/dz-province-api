@@ -26,6 +26,8 @@ spring:
         default: 1.0
         use:
             path-segment: 1
+    problemdetails:
+        enabled: true
   data:
       web:
           pageable:
