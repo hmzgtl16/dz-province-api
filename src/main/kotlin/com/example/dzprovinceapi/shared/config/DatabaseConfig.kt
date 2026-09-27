@@ -15,21 +15,11 @@
  */
 package com.example.dzprovinceapi.shared.config
 
-import com.example.dzprovinceapi.shared.converter.LanguageReadingConverter
-import com.example.dzprovinceapi.shared.converter.LanguageWritingConverter
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.convert.converter.Converter
-import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
-@EnableJdbcRepositories(basePackages = ["com.example.dzprovinceapi"])
+@EnableJpaRepositories(basePackages = ["com.example.dzprovinceapi"])
 @EnableTransactionManagement
-class DatabaseConfig : AbstractJdbcConfiguration() {
-    override fun userConverters(): List<Converter<*, *>> =
-        listOf(
-            LanguageWritingConverter(),
-            LanguageReadingConverter(),
-        )
-}
+class DatabaseConfig
