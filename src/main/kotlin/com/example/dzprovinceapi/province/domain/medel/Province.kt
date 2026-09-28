@@ -15,15 +15,20 @@
  */
 package com.example.dzprovinceapi.province.domain.medel
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.MappedCollection
-import org.springframework.data.relational.core.mapping.Table
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
+import java.util.UUID
 
+@Entity
 @Table(name = "province")
-data class Province(
-    @Id
-    val id: Short,
-    val slug: String,
-    @MappedCollection(idColumn = "province_id")
-    val translations: Set<ProvinceTranslation>,
-)
+class Province(
+    var code: String,
+    var slug: String,
+) {
+    @Id var id: UUID? = null
+
+    @OneToMany(mappedBy = "province")
+    var translations: Set<ProvinceTranslation> = setOf()
+}

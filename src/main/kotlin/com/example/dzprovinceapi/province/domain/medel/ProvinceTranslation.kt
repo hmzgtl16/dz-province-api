@@ -16,20 +16,26 @@
 package com.example.dzprovinceapi.province.domain.medel
 
 import com.example.dzprovinceapi.language.domain.Language
-import org.springframework.data.annotation.Id
-import org.springframework.data.jdbc.core.mapping.AggregateReference
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Embedded
-import org.springframework.data.relational.core.mapping.Table
+import jakarta.persistence.EmbeddedId
+import jakarta.persistence.Entity
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.MapsId
+import jakarta.persistence.Table
 
+@Entity
 @Table(name = "province_translation")
-data class ProvinceTranslation(
-    @Id
-    @Embedded.Nullable
-    val id: ProvinceTranslationId,
-    val name: String,
-    val language: Language,
-    @Column("province_id")
-    val province: AggregateReference<Province, Short>,
-
-)
+class ProvinceTranslation(
+    var name: String,
+    @ManyToOne
+    @MapsId("provinceId")
+    @JoinColumn(name = "province_id")
+    var province: Province,
+    @ManyToOne
+    @MapsId("languageId")
+    @JoinColumn(name = "language_id")
+    var language: Language,
+) {
+    @EmbeddedId
+    var id: ProvinceTranslationId? = null
+}

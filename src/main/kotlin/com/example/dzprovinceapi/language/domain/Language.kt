@@ -15,11 +15,16 @@
  */
 package com.example.dzprovinceapi.language.domain
 
-enum class Language(
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
+import java.util.UUID
+
+@Entity
+@Table(name = "language")
+class Language(
     val code: String,
-    val nativeName: String,
+    val name: String,
 ) {
-    FRENCH("fr", "Français"),
-    ARABIC("ar", "العربية"),
-    ENGLISH("en", "English"),
+    @Id var id: UUID? = null
 }

@@ -15,7 +15,16 @@
  */
 package com.example.dzprovinceapi.province.domain.medel
 
-data class ProvinceTranslationId(
-    val provinceId: Short,
-    val language: String,
-)
+import jakarta.persistence.Column
+import jakarta.persistence.Embeddable
+import java.io.Serializable
+import java.util.UUID
+
+@Embeddable
+class ProvinceTranslationId : Serializable {
+    @Column(name = "province_id")
+    var provinceId: UUID? = null
+
+    @Column(name = "language_id")
+    var languageId: UUID? = null
+}
