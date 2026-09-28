@@ -302,7 +302,6 @@ WITH
       ('69', 'ar', 'الأبيض سيدي الشيخ'),
       ('69', 'en', 'El Abiodh Sidi Cheikh')
   )
-
 INSERT INTO
   province_translation (province_id, language_id, name)
 SELECT

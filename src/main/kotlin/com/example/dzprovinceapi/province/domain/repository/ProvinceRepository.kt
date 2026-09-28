@@ -22,6 +22,5 @@ import java.util.UUID
 
 @Repository
 interface ProvinceRepository : JpaRepository<Province, UUID> {
-
     fun findProvinceBySlug(slug: String): Province?
 }
