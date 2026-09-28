@@ -16,17 +16,12 @@
 package com.example.dzprovinceapi.province.domain.repository
 
 import com.example.dzprovinceapi.province.domain.medel.Province
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
+import java.util.UUID
 
 @Repository
-interface ProvinceRepository : JpaRepository<Province, Short> {
-    fun findProvincesBySlug(
-        slug: String,
-        pageable: Pageable,
-    ): Page<Province>
+interface ProvinceRepository : JpaRepository<Province, UUID> {
 
-    fun findProvinceById(id: Short): Province?
+    fun findProvinceBySlug(slug: String): Province?
 }
