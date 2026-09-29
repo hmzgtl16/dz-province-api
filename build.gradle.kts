@@ -16,6 +16,7 @@
 plugins {
     alias(libs.plugins.graalvm.native)
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.spotless)
@@ -40,13 +41,13 @@ repositories {
 dependencies {
     implementation(libs.flyway.postgresql)
     implementation(libs.kotlin.reflect)
-    implementation(libs.spring.boot.starter.data.jdbc)
+    implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.flyway)
     implementation(libs.spring.boot.starter.kotlinx.serialization.json)
     implementation(libs.spring.boot.starter.webmvc)
     developmentOnly(libs.spring.boot.docker.compose)
     runtimeOnly(libs.postgresql)
-    testImplementation(libs.spring.boot.starter.data.jdbc.test)
+    testImplementation(libs.spring.boot.starter.data.jpa.test)
     testImplementation(libs.spring.boot.starter.flyway.test)
     testImplementation(libs.spring.boot.starter.kotlinx.serialization.json.test)
     testImplementation(libs.spring.boot.starter.webmvc.test)
@@ -66,6 +67,12 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
 }
 
 spotless {
