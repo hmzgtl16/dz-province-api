@@ -30,7 +30,7 @@ spring:
     baseline-on-migrate: true
 
 logging:
-    level:
-      root: "info"
-      org.hibernate.SQL: "debug"
-      org.hibernate.orm.jdbc.bind: "trace"
+  level:
+    root: "info"
+    org.hibernate.SQL: "debug"
+    org.hibernate.orm.jdbc.bind: "trace"
