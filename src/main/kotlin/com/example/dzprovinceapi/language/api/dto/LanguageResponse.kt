@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.api.dto
+package com.example.dzprovinceapi.language.api.dto
 
 import kotlinx.serialization.Serializable
 
