@@ -16,6 +16,7 @@
 package com.example.dzprovinceapi.province.domain.medel
 
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
@@ -29,6 +30,6 @@ class Province(
 ) {
     @Id var id: UUID? = null
 
-    @OneToMany(mappedBy = "province")
-    var translations: Set<ProvinceTranslation> = setOf()
+    @OneToMany(mappedBy = "province", fetch = FetchType.LAZY)
+    var translations: MutableSet<ProvinceTranslation> = mutableSetOf()
 }

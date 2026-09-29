@@ -24,7 +24,17 @@ spring:
     password: dz_province_password
     driver-class-name: org.postgresql.Driver
     name: dz_province_dev
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
   flyway:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

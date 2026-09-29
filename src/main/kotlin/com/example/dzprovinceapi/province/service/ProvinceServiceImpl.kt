@@ -18,28 +18,33 @@ package com.example.dzprovinceapi.province.service
 import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import com.example.dzprovinceapi.province.domain.medel.Province
 import com.example.dzprovinceapi.province.domain.repository.ProvinceRepository
+import com.example.dzprovinceapi.province.domain.repository.ProvinceTranslationRepository
 import com.example.dzprovinceapi.province.mapping.toResponse
 import com.example.dzprovinceapi.shared.error.ProvinceNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 class ProvinceServiceImpl(
     private val provinceRepository: ProvinceRepository,
+    private val provinceTranslationRepository: ProvinceTranslationRepository,
 ) : ProvinceService {
+    @Transactional
     override fun getAllProvinces(
-        lang: String?,
+        lang: List<String>,
         pageable: Pageable,
     ): Page<ProvinceResponse> =
         provinceRepository
-            .findAll(pageable)
-            .map { it.toResponse(lang) }
+            .findProvincesByLanguages(lang, pageable)
+            .map(Province::toResponse)
 
     override fun getBySlug(
         lang: String?,
         slug: String,
     ): ProvinceResponse =
-        provinceRepository.findProvinceBySlug(slug)?.toResponse(lang)
+        provinceRepository.findProvinceBySlug(slug)?.toResponse()
             ?: throw ProvinceNotFoundException(1)
 }

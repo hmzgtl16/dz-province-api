@@ -33,6 +33,10 @@ spring:
       pageable:
         default-page-size: 20
         max-page-size: 100
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
   kotlinx:
     serialization:
       json:

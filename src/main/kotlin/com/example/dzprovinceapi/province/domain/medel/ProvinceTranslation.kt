@@ -18,6 +18,7 @@ package com.example.dzprovinceapi.province.domain.medel
 import com.example.dzprovinceapi.language.domain.Language
 import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.MapsId
@@ -27,11 +28,11 @@ import jakarta.persistence.Table
 @Table(name = "province_translation")
 class ProvinceTranslation(
     var name: String,
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("provinceId")
     @JoinColumn(name = "province_id")
     var province: Province,
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("languageId")
     @JoinColumn(name = "language_id")
     var language: Language,

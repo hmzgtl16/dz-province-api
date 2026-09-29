@@ -22,7 +22,7 @@ import org.springframework.data.domain.Pageable
 
 interface ProvinceService {
     fun getAllProvinces(
-        lang: String?,
+        lang: List<String>,
         pageable: Pageable,
     ): Page<ProvinceResponse>
 

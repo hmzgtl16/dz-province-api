@@ -18,6 +18,7 @@ package com.example.dzprovinceapi.province.domain.medel
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import java.io.Serializable
+import java.util.Objects
 import java.util.UUID
 
 @Embeddable
@@ -27,4 +28,14 @@ class ProvinceTranslationId : Serializable {
 
     @Column(name = "language_id")
     var languageId: UUID? = null
+
+    override fun equals(other: Any?): Boolean =
+        this === other ||
+            (
+                other is ProvinceTranslationId &&
+                    provinceId == other.provinceId &&
+                    languageId == other.languageId
+            )
+
+    override fun hashCode(): Int = Objects.hash(provinceId, languageId)
 }

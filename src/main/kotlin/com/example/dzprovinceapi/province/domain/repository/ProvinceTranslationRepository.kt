@@ -17,8 +17,30 @@ package com.example.dzprovinceapi.province.domain.repository
 
 import com.example.dzprovinceapi.province.domain.medel.ProvinceTranslation
 import com.example.dzprovinceapi.province.domain.medel.ProvinceTranslationId
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProvinceTranslationRepository : CrudRepository<ProvinceTranslation, ProvinceTranslationId>
+interface ProvinceTranslationRepository : JpaRepository<ProvinceTranslation, ProvinceTranslationId> {
+    @Query(
+        value = """
+            select pt from ProvinceTranslation pt
+            join fetch pt.province p
+            join fetch pt.language l
+            where l.code = :lang
+        """,
+        countQuery = """
+            select count(pt) from ProvinceTranslation pt
+            where pt.language.code = :lang
+        """,
+    )
+    fun findAllByLanguageCode(
+        @Param("lang") lang: String,
+        pageable: Pageable,
+    ): Page<ProvinceTranslation>
+}

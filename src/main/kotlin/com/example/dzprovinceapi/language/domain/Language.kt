@@ -23,8 +23,8 @@ import java.util.UUID
 @Entity
 @Table(name = "language")
 class Language(
-    val code: String,
-    val name: String,
+    var code: String,
+    var name: String,
 ) {
     @Id var id: UUID? = null
 }
