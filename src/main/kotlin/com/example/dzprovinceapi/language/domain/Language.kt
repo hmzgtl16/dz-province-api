@@ -7,7 +7,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import org.hibernate.annotations.ColumnDefault
 import java.util.UUID
 
 @Entity
