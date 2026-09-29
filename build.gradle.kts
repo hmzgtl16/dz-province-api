@@ -86,7 +86,17 @@ spotless {
     sql {
         target("**/*.sql")
         targetExclude("spotless/**")
-        prettier(libs.versions.prettier.get())
+        prettier(
+            mapOf(
+                "prettier" to libs.versions.prettier.get(),
+                "prettier-plugin-sql" to libs.versions.prettierPluginSql.get(),
+            ),
+        ).config(
+            mapOf(
+                "parser" to "sql",
+                "plugins" to listOf("prettier-plugin-sql"),
+            ),
+        )
         licenseHeaderFile(rootDir.resolve("spotless/license-header.sql"), "^[^-]")
     }
 }
