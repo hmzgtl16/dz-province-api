@@ -28,3 +28,9 @@ spring:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
+
+logging:
+    level:
+      root: "info"
+      org.hibernate.SQL: "debug"
+      org.hibernate.orm.jdbc.bind: "trace"
