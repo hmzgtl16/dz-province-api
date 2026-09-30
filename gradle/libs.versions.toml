@@ -21,6 +21,8 @@ spring-boot-starter-flyway = { group = "org.springframework.boot", name = "sprin
 spring-boot-starter-flyway-test = { group = "org.springframework.boot", name = "spring-boot-starter-flyway-test" }
 spring-boot-starter-kotlinx-serialization-json = { group = "org.springframework.boot", name = "spring-boot-starter-kotlinx-serialization-json" }
 spring-boot-starter-kotlinx-serialization-json-test = { group = "org.springframework.boot", name = "spring-boot-starter-kotlinx-serialization-json-test" }
+spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
+spring-boot-starter-security-test = { group = "org.springframework.boot", name = "spring-boot-starter-security-test" }
 spring-boot-starter-webmvc = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc" }
 spring-boot-starter-webmvc-test = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc-test" }
 spring-boot-docker-compose = { group = "org.springframework.boot", name = "spring-boot-docker-compose" }
