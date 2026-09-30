@@ -21,11 +21,15 @@ import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import com.example.dzprovinceapi.province.domain.Province
 import com.example.dzprovinceapi.province.domain.ProvinceTranslation
 
-fun Province?.toResponse(): ProvinceResponse =
+fun Province?.toResponse(languages: List<String>): ProvinceResponse =
     ProvinceResponse(
         code = this?.code,
         slug = this?.slug,
-        names = this?.provinceTranslations?.map(ProvinceTranslation::toResponse) ?: emptyList(),
+        names =
+            this
+                ?.provinceTranslations
+                ?.filter { languages.contains(it.language?.code) }
+                ?.map { it.toResponse() } ?: emptyList(),
     )
 
 fun ProvinceTranslation.toResponse(): ProvinceNameResponse =
