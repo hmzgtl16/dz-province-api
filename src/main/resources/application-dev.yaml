@@ -28,9 +28,43 @@ spring:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
-
+  cache:
+    type: jcache
+    jcache:
+      provider: com.github.benmanes.caffeine.jcache.spi.CaffeineCachingProvider
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
 logging:
   level:
     root: "info"
     org.hibernate.SQL: "debug"
     org.hibernate.orm.jdbc.bind: "trace"
+
+bucket4j:
+  enabled: true
+  cache-to-use: jcache
+
+  filters:
+    - id: dz-province-api-filter
+      cache-name: dz-province-api-rate-limit-buckets
+      filter-method: servlet
+      filter-order: 0
+      url: ^/api/.*
+      http-content-type: application/problem+json
+      http-status-code: TOO_MANY_REQUESTS
+      http-response-body: |
+        {
+          "type": "https://example.com/problems/rate-limit",
+          "title": "Too Many Requests",
+          "status": 429,
+          "detail": "Rate limit exceeded. Please retry later."
+        }
+      rate-limits:
+        - cache-key: getRemoteAddr()
+          bandwidths:
+            - capacity: 60
+              time: 1
+              unit: minutes
+              refill-speed: greedy

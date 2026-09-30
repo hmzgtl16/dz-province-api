@@ -39,14 +39,18 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.bucket4j)
+    implementation(libs.caffeine)
+    implementation(libs.caffeine.jcache)
     implementation(libs.flyway.postgresql)
     implementation(libs.kotlin.reflect)
+    implementation(libs.spring.boot.starter.bucket4j)
+    implementation(libs.spring.boot.starter.cache)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.flyway)
     implementation(libs.spring.boot.starter.kotlinx.serialization.json)
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.webmvc)
+    implementation(libs.spring.boot.configuration.processor)
     developmentOnly(libs.spring.boot.docker.compose)
     runtimeOnly(libs.postgresql)
     testImplementation(libs.spring.boot.starter.data.jpa.test)
