@@ -19,7 +19,6 @@ import com.example.dzprovinceapi.province.domain.ProvinceTranslation
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.util.UUID
@@ -36,7 +35,6 @@ class Language {
     @Column(name = "name")
     var name: String = ""
 
-    @OneToMany
-    @JoinColumn(name = "language_id")
+    @OneToMany(mappedBy = "language")
     var provinceTranslations: MutableSet<ProvinceTranslation> = mutableSetOf()
 }
