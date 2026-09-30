@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.spring.boot.starter.kotlinx.serialization.json)
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.webmvc)
-    implementation(libs.spring.boot.configuration.processor)
     developmentOnly(libs.spring.boot.docker.compose)
     runtimeOnly(libs.postgresql)
     testImplementation(libs.spring.boot.starter.data.jpa.test)
