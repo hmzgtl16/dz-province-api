@@ -20,37 +20,72 @@ import com.example.dzprovinceapi.province.domain.Province
 import com.example.dzprovinceapi.province.domain.ProvinceRepository
 import com.example.dzprovinceapi.province.mapping.toResponse
 import com.example.dzprovinceapi.shared.error.ProvinceCodeNotFoundException
+import com.example.dzprovinceapi.shared.error.ProvinceSlugNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ProvinceServiceImpl(
     private val provinceRepository: ProvinceRepository,
 ) : ProvinceService {
+    @Transactional(readOnly = true)
     override fun getAllProvinces(
         languages: List<String>,
         pageable: Pageable,
-    ): Page<ProvinceResponse> =
-        provinceRepository
-            .findProvincesByLanguages(languages, pageable)
-            .map(Province::toResponse)
+    ): Page<ProvinceResponse> {
+        val provinces = provinceRepository.findAll(pageable)
+        val response =
+            provinces.map {
+                it.toResponse(languages.normalizeOrDefaults())
+            }
 
+        return response
+    }
+
+    @Transactional(readOnly = true)
     override fun getBySlug(
         languages: List<String>,
         slug: String,
-    ): ProvinceResponse =
-        provinceRepository
-            .findProvinceBySlug(slug)
-            ?.toResponse()
-            ?: throw ProvinceCodeNotFoundException(slug)
+    ): ProvinceResponse {
+        val province =
+            provinceRepository
+                .findProvinceBySlug(slug)
+                ?: throw ProvinceSlugNotFoundException(slug)
+        val response =
+            province
+                .toResponse(languages.normalizeOrDefaults())
 
+        return response
+    }
+
+    @Transactional(readOnly = true)
     override fun getByCode(
         languages: List<String>,
         code: String,
-    ): ProvinceResponse =
-        provinceRepository
-            .findProvinceByCode(code)
-            ?.toResponse()
-            ?: throw ProvinceCodeNotFoundException(code)
+    ): ProvinceResponse {
+        val province =
+            provinceRepository
+                .findProvinceByCode(code)
+                ?: throw ProvinceCodeNotFoundException(code)
+        val response =
+            province
+                .toResponse(languages.normalizeOrDefaults())
+
+        return response
+    }
+
+    private fun List<String>.normalizeOrDefaults(): List<String> =
+        asSequence()
+            .flatMap { it.split(',') }
+            .map { it.trim().lowercase() }
+            .filter { it.length == 2 && it.all(Char::isLetter) }
+            .distinct()
+            .toList()
+            .ifEmpty { DEFAULT_LANGUAGES }
+
+    companion object {
+        private val DEFAULT_LANGUAGES = listOf("ar", "en", "fr")
+    }
 }
