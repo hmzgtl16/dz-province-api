@@ -39,6 +39,7 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.bucket4j)
     implementation(libs.flyway.postgresql)
     implementation(libs.kotlin.reflect)
     implementation(libs.spring.boot.starter.data.jpa)

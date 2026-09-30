@@ -1,4 +1,5 @@
 [versions]
+bucket4j = "8.20.0"
 graalvm = "1.1.13"
 kotlin = "2.3.21"
 ktlint = "1.8.0"
@@ -9,6 +10,7 @@ springBoot = "4.1.1"
 springDependencyManagement = "1.1.7"
 
 [libraries]
+bucket4j = { group = "com.bucket4j", name = "bucket4j_jdk17-core", version.ref = "bucket4j" }
 flyway-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql" }
 h2database = { group = "com.h2database", name = "h2" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
