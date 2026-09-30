@@ -27,12 +27,4 @@ interface ProvinceRepository : JpaRepository<Province, UUID> {
     fun findProvinceByCode(code: String): Province?
 
     fun findProvinceBySlug(slug: String): Province?
-
-    @Query(
-        "SELECT p FROM Province p JOIN ProvinceTranslation pt ON pt.id.provinceId = p.id JOIN Language l ON l.id = pt.id.languageId WHERE l.code IN :languages",
-    )
-    fun findProvincesByLanguages(
-        languages: List<String>,
-        pageable: Pageable,
-    ): Page<Province>
 }
