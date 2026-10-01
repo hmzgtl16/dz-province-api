@@ -14,17 +14,22 @@ import org.testcontainers.postgresql.PostgreSQLContainer
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 abstract class AbstractDataJdbcTest {
-    @Container
-    val container: PostgreSQLContainer =
-        PostgreSQLContainer("postgres:18.6-alpine")
-            .withDatabaseName("dz_province_test")
-            .withUsername("dz_province_user")
-            .withPassword("dz_province_password")
+    companion object {
+        @Container
+        @JvmStatic
+        val container: PostgreSQLContainer =
+            PostgreSQLContainer("postgres:18.6-alpine")
+                .withDatabaseName("dz_province_test")
+                .withUsername("dz_province_user")
+                .withPassword("dz_province_password")
+                .also(PostgreSQLContainer::start)
 
-    @DynamicPropertySource
-    fun registerDatasourceProperties(registry: DynamicPropertyRegistry) {
-        registry.add("spring.datasource.url", container::getJdbcUrl)
-        registry.add("spring.datasource.username", container::getUsername)
-        registry.add("spring.datasource.password", container::getPassword)
+        @DynamicPropertySource
+        @JvmStatic
+        fun registerDatasourceProperties(registry: DynamicPropertyRegistry) {
+            registry.add("spring.datasource.url", container::getJdbcUrl)
+            registry.add("spring.datasource.username", container::getUsername)
+            registry.add("spring.datasource.password", container::getPassword)
+        }
     }
 }
