@@ -15,13 +15,13 @@
  */
 package com.example.dzprovinceapi.province.domain
 
-import com.example.dzprovinceapi.shared.AbstractDataJdbcTest
+import com.example.dzprovinceapi.shared.AbstractDataJpaTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.groups.Tuple
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-class ProvinceRepositoryTest : AbstractDataJdbcTest() {
+class ProvinceRepositoryTest : AbstractDataJpaTest() {
     @Autowired
     private lateinit var provinceRepository: ProvinceRepository
 

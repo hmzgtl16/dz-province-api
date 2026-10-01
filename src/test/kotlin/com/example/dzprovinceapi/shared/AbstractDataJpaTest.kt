@@ -28,7 +28,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-abstract class AbstractDataJdbcTest {
+abstract class AbstractDataJpaTest {
     companion object {
         @Container
         @JvmStatic
