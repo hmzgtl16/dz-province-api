@@ -139,7 +139,7 @@ WITH
       ('15', 'fr', 'Tizi Ouzou'),
       ('15', 'ar', 'تيزي وزو'),
       ('15', 'en', 'Tizi Ouzou'),
-      ('16', 'fr', 'Algiers'),
+      ('16', 'fr', 'Alger'),
       ('16', 'ar', 'الجزائر'),
       ('16', 'en', 'Algiers'),
       ('17', 'fr', 'Djelfa'),
