@@ -15,6 +15,8 @@
  */
 package com.example.dzprovinceapi.province.service
 
+import com.example.dzprovinceapi.helpers.testProvince
+import com.example.dzprovinceapi.helpers.testTranslation
 import com.example.dzprovinceapi.language.domain.Language
 import com.example.dzprovinceapi.province.domain.Province
 import com.example.dzprovinceapi.province.domain.ProvinceRepository
@@ -34,9 +36,11 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
+import org.springframework.test.context.ActiveProfiles
 import java.util.UUID
 
 @ExtendWith(MockitoExtension::class)
+@ActiveProfiles("test")
 class ProvinceServiceTest {
     @Mock
     private lateinit var provinceRepository: ProvinceRepository
@@ -51,7 +55,7 @@ class ProvinceServiceTest {
     @Test
     fun `getAllProvinces returns a page of mapped responses`() {
         val province =
-            province(code = "16", slug = "algiers", translations = emptySet())
+            testProvince(code = "16", slug = "algiers", translations = emptySet())
 
         val pageable = PageRequest.of(0, 10)
         val provincePage = PageImpl(listOf(province), pageable, 1)
@@ -72,15 +76,15 @@ class ProvinceServiceTest {
     fun `getAllProvinces falls back to default languages when none are provided`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -104,15 +108,15 @@ class ProvinceServiceTest {
     fun `getAllProvinces filters names to the requested languages`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -138,15 +142,15 @@ class ProvinceServiceTest {
     fun `getAllProvinces normalizes languages by splitting on comma, trimming, lowercasing and de-duplicating`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -171,15 +175,15 @@ class ProvinceServiceTest {
     fun `getAllProvinces falls back to default languages when every entry is invalid`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -218,15 +222,15 @@ class ProvinceServiceTest {
     fun `getBySlug returns the mapped response`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -258,15 +262,15 @@ class ProvinceServiceTest {
     fun `getBySlug normalizes the given languages`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -285,15 +289,15 @@ class ProvinceServiceTest {
     fun `getBySlug falls back to default languages when none are provided`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -315,15 +319,15 @@ class ProvinceServiceTest {
     fun `getByCode returns the mapped response`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -353,15 +357,15 @@ class ProvinceServiceTest {
     fun `getByCode normalizes the given languages`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -380,15 +384,15 @@ class ProvinceServiceTest {
     fun `getByCode falls back to default languages when none are provided`() {
         val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
                 id = id,
                 code = "16",
                 slug = "algiers",
                 translations =
                     setOf(
-                        translation(provinceId = id, name = "Alger", language = "fr"),
-                        translation(provinceId = id, name = "Algiers", language = "en"),
-                        translation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
+                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
+                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
                     ),
             )
 
@@ -400,43 +404,5 @@ class ProvinceServiceTest {
             .containsExactlyInAnyOrder("ar", "en", "fr")
 
         verify(provinceRepository).findProvinceByCode("16")
-    }
-
-    // ------------------------------------------------------------------
-    // Helpers
-    // ------------------------------------------------------------------
-
-    private fun province(
-        id: UUID = UUID.randomUUID(),
-        code: String,
-        slug: String,
-        translations: Set<ProvinceTranslation> = emptySet(),
-    ): Province =
-        Province().apply {
-            this.id = id
-            this.code = code
-            this.slug = slug
-            this.provinceTranslations = translations.toMutableSet()
-        }
-
-    private fun translation(
-        provinceId: UUID,
-        name: String,
-        language: String,
-    ): ProvinceTranslation {
-        val language =
-            Language().apply {
-                id = UUID.randomUUID()
-                code = language
-            }
-        return ProvinceTranslation().apply {
-            id =
-                ProvinceTranslationId().apply {
-                    this.provinceId = provinceId
-                    this.languageId = language.id
-                }
-            this.language = language
-            this.name = name
-        }
     }
 }
