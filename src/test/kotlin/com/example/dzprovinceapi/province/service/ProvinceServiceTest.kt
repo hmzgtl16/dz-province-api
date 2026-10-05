@@ -15,6 +15,7 @@
  */
 package com.example.dzprovinceapi.province.service
 
+import com.example.dzprovinceapi.helpers.testLanguage
 import com.example.dzprovinceapi.helpers.testProvince
 import com.example.dzprovinceapi.helpers.testTranslation
 import com.example.dzprovinceapi.language.domain.Language
@@ -82,9 +83,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -114,9 +115,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -148,9 +149,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -181,9 +182,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -228,9 +229,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -268,9 +269,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -295,9 +296,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -325,9 +326,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -363,9 +364,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
@@ -390,9 +391,9 @@ class ProvinceServiceTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = "fr"),
-                        testTranslation(provinceId = id, name = "Algiers", language = "en"),
-                        testTranslation(provinceId = id, name = "الجزائر", language = "ar"),
+                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
+                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
                     ),
             )
 
