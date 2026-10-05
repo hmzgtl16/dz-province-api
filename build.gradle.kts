@@ -16,6 +16,7 @@
 plugins {
     alias(libs.plugins.graalvm.native)
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.jpa)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.spotless)
@@ -38,23 +39,28 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.caffeine)
+    implementation(libs.caffeine.jcache)
     implementation(libs.flyway.postgresql)
     implementation(libs.kotlin.reflect)
-    implementation(libs.spring.boot.starter.data.jdbc)
+    implementation(libs.spring.boot.starter.bucket4j)
+    implementation(libs.spring.boot.starter.cache)
+    implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.flyway)
     implementation(libs.spring.boot.starter.kotlinx.serialization.json)
+    implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.webmvc)
     developmentOnly(libs.spring.boot.docker.compose)
     runtimeOnly(libs.postgresql)
-    testImplementation(libs.spring.boot.starter.data.jdbc.test)
+    testImplementation(libs.spring.boot.starter.data.jpa.test)
     testImplementation(libs.spring.boot.starter.flyway.test)
     testImplementation(libs.spring.boot.starter.kotlinx.serialization.json.test)
+    testImplementation(libs.spring.boot.starter.security.test)
     testImplementation(libs.spring.boot.starter.webmvc.test)
     testImplementation(libs.spring.boot.testcontainers)
     testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgresql)
-    testRuntimeOnly(libs.h2database)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 
@@ -66,6 +72,12 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
 }
 
 spotless {
@@ -86,7 +98,17 @@ spotless {
     sql {
         target("**/*.sql")
         targetExclude("spotless/**")
-        prettier(libs.versions.prettier.get())
+        prettier(
+            mapOf(
+                "prettier" to libs.versions.prettier.get(),
+                "prettier-plugin-sql" to libs.versions.prettierPluginSql.get(),
+            ),
+        ).config(
+            mapOf(
+                "parser" to "sql",
+                "plugins" to listOf("prettier-plugin-sql"),
+            ),
+        )
         licenseHeaderFile(rootDir.resolve("spotless/license-header.sql"), "^[^-]")
     }
 }

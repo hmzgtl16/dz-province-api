@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.province.domain
 
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
+import java.util.UUID
 
-@SpringBootTest
-@ActiveProfiles("test")
-class DzProvinceApiApplicationTests {
-    @Test
-    fun contextLoads() {
-        assertTrue(true, "The application context should load successfully.")
-    }
+@Repository
+interface ProvinceRepository : JpaRepository<Province, UUID> {
+    fun findProvinceByCode(code: String): Province?
+
+    fun findProvinceBySlug(slug: String): Province?
 }

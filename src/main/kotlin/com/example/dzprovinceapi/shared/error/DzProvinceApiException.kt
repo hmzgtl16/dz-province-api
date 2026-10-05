@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.shared.error
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.cache.annotation.EnableCaching
+sealed class DzProvinceApiException(
+    override val message: String,
+) : RuntimeException()
 
-@SpringBootApplication
-class DzProvinceApiApplication
+class ProvinceCodeNotFoundException(
+    code: String,
+) : DzProvinceApiException(message = "No province exists with code $code.")
 
-fun main(args: Array<String>) {
-    runApplication<DzProvinceApiApplication>(*args)
-}
+class ProvinceSlugNotFoundException(
+    slug: String,
+) : DzProvinceApiException(message = "No province exists with slug $slug.")

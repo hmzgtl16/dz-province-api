@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.shared
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.cache.annotation.EnableCaching
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.test.context.ActiveProfiles
 
-@SpringBootApplication
-class DzProvinceApiApplication
-
-fun main(args: Array<String>) {
-    runApplication<DzProvinceApiApplication>(*args)
-}
+@SpringBootTest
+@AutoConfigureMockMvc
+abstract class AbstractWebMvcTest : AbstractTestcontainers()

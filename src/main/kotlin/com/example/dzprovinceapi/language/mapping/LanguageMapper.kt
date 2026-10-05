@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.language.mapping
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.cache.annotation.EnableCaching
+import com.example.dzprovinceapi.language.api.dto.LanguageResponse
+import com.example.dzprovinceapi.language.domain.Language
 
-@SpringBootApplication
-class DzProvinceApiApplication
-
-fun main(args: Array<String>) {
-    runApplication<DzProvinceApiApplication>(*args)
-}
+fun Language?.toResponse(): LanguageResponse =
+    LanguageResponse(
+        code = this?.code,
+        name = this?.name,
+    )

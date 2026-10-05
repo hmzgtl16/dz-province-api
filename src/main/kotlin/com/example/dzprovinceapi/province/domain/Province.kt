@@ -13,15 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.province.domain
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.cache.annotation.EnableCaching
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
+import java.util.UUID
 
-@SpringBootApplication
-class DzProvinceApiApplication
+@Entity
+@Table(name = "province", schema = "public")
+class Province {
+    @Id
+    var id: UUID? = null
 
-fun main(args: Array<String>) {
-    runApplication<DzProvinceApiApplication>(*args)
+    @Column(name = "code")
+    var code: String = ""
+
+    @Column(name = "slug")
+    var slug: String = ""
+
+    @OneToMany(mappedBy = "province")
+    var provinceTranslations: MutableSet<ProvinceTranslation> = mutableSetOf()
 }

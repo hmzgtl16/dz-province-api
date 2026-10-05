@@ -1,27 +1,37 @@
 [versions]
+bucket4j-spring-boot-starter = "0.14.0"
+caffeine = "3.3.0"
 graalvm = "1.1.13"
 kotlin = "2.3.21"
 ktlint = "1.8.0"
 prettier = "3.9.8"
+prettierPluginSql = "0.20.0"
 spotless = "8.10.2"
 springBoot = "4.1.1"
 springDependencyManagement = "1.1.7"
 
 [libraries]
+caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine", version.ref = "caffeine" }
+caffeine-jcache = { group = "com.github.ben-manes.caffeine", name = "jcache", version.ref = "caffeine" }
 flyway-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql" }
 h2database = { group = "com.h2database", name = "h2" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect"}
 kotlin-test-junit5= { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5" }
 postgresql = { group = "org.postgresql", name = "postgresql" }
-spring-boot-starter-data-jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-data-jdbc" }
-spring-boot-starter-data-jdbc-test = { group = "org.springframework.boot", name = "spring-boot-starter-data-jdbc-test" }
+spring-boot-starter-bucket4j = { group = "com.giffing.bucket4j.spring.boot.starter", name = "bucket4j-spring-boot-starter", version.ref = "bucket4j-spring-boot-starter" }
+spring-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
+spring-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
+spring-boot-starter-data-jpa-test = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa-test" }
 spring-boot-starter-flyway = { group = "org.springframework.boot", name = "spring-boot-starter-flyway" }
 spring-boot-starter-flyway-test = { group = "org.springframework.boot", name = "spring-boot-starter-flyway-test" }
 spring-boot-starter-kotlinx-serialization-json = { group = "org.springframework.boot", name = "spring-boot-starter-kotlinx-serialization-json" }
 spring-boot-starter-kotlinx-serialization-json-test = { group = "org.springframework.boot", name = "spring-boot-starter-kotlinx-serialization-json-test" }
+spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
+spring-boot-starter-security-test = { group = "org.springframework.boot", name = "spring-boot-starter-security-test" }
 spring-boot-starter-webmvc = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc" }
 spring-boot-starter-webmvc-test = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc-test" }
+spring-boot-configuration-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
 spring-boot-docker-compose = { group = "org.springframework.boot", name = "spring-boot-docker-compose" }
 spring-boot-testcontainers= { group = "org.springframework.boot", name = "spring-boot-testcontainers" }
 testcontainers-junit-jupiter = { group = "org.testcontainers", name = "testcontainers-junit-jupiter" }
@@ -30,6 +40,7 @@ testcontainers-postgresql = { group = "org.testcontainers", name = "testcontaine
 [plugins]
 graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvm"}
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

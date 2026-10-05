@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.shared.config
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
 import org.springframework.cache.annotation.EnableCaching
+import org.springframework.context.annotation.Configuration
 
-@SpringBootApplication
-class DzProvinceApiApplication
-
-fun main(args: Array<String>) {
-    runApplication<DzProvinceApiApplication>(*args)
-}
+@Configuration
+@EnableCaching
+class CacheConfig

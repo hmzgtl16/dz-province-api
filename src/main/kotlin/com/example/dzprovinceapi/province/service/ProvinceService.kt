@@ -13,15 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.province.service
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.cache.annotation.EnableCaching
+import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 
-@SpringBootApplication
-class DzProvinceApiApplication
+interface ProvinceService {
+    fun getAllProvinces(
+        languages: List<String>,
+        pageable: Pageable,
+    ): Page<ProvinceResponse>
 
-fun main(args: Array<String>) {
-    runApplication<DzProvinceApiApplication>(*args)
+    fun getBySlug(
+        languages: List<String>,
+        slug: String,
+    ): ProvinceResponse
+
+    fun getByCode(
+        languages: List<String>,
+        code: String,
+    ): ProvinceResponse
 }

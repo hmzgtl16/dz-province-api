@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi
+package com.example.dzprovinceapi.province.api.dto
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.cache.annotation.EnableCaching
+import kotlinx.serialization.Serializable
 
-@SpringBootApplication
-class DzProvinceApiApplication
-
-fun main(args: Array<String>) {
-    runApplication<DzProvinceApiApplication>(*args)
-}
+@Serializable
+data class ProvinceResponse(
+    val code: String?,
+    val slug: String?,
+    val names: List<ProvinceNameResponse>,
+)
