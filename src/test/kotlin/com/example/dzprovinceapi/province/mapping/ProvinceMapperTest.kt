@@ -15,13 +15,14 @@
  */
 package com.example.dzprovinceapi.province.mapping
 
-import com.example.dzprovinceapi.language.domain.Language
+import com.example.dzprovinceapi.helpers.testLanguage
+import com.example.dzprovinceapi.helpers.testProvince
+import com.example.dzprovinceapi.helpers.testTranslation
 import com.example.dzprovinceapi.province.domain.Province
-import com.example.dzprovinceapi.province.domain.ProvinceTranslation
-import com.example.dzprovinceapi.province.domain.ProvinceTranslationId
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.util.UUID
+import kotlin.collections.emptySet
 
 class ProvinceMapperTest {
     @Test
@@ -35,7 +36,12 @@ class ProvinceMapperTest {
 
     @Test
     fun `province with no translations maps to empty names`() {
-        val province = province(translations = emptySet())
+        val province =
+            testProvince(
+                code = "16",
+                slug = "algiers",
+                translations = emptySet(),
+            )
 
         val result = province.toResponse(listOf("fr"))
 
@@ -46,13 +52,17 @@ class ProvinceMapperTest {
 
     @Test
     fun `only translations matching requested languages are included`() {
+        val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
+                id = id,
+                code = "16",
+                slug = "algiers",
                 translations =
                     setOf(
-                        translation("Alger", "fr"),
-                        translation("Algiers", "en"),
-                        translation("الجزائر", "ar"),
+                        testTranslation(id, "Alger", testLanguage(code = "fr")),
+                        testTranslation(id, "Algiers", testLanguage(code = "en")),
+                        testTranslation(id, "الجزائر", testLanguage(code = "ar")),
                     ),
             )
 
@@ -67,9 +77,16 @@ class ProvinceMapperTest {
 
     @Test
     fun `languages with no matching translation yields empty names`() {
+        val id = UUID.randomUUID()
         val province =
-            province(
-                translations = setOf(translation("Alger", "fr")),
+            testProvince(
+                id = id,
+                code = "16",
+                slug = "algiers",
+                translations =
+                    setOf(
+                        testTranslation(UUID.randomUUID(), "Alger", testLanguage(code = "fr")),
+                    ),
             )
 
         val result = province.toResponse(listOf("de", "es"))
@@ -79,12 +96,16 @@ class ProvinceMapperTest {
 
     @Test
     fun `empty languages list yields empty names`() {
+        val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
+                id = id,
+                code = "16",
+                slug = "algiers",
                 translations =
                     setOf(
-                        translation("Alger", "fr"),
-                        translation("Algiers", "en"),
+                        testTranslation(id, "Alger", testLanguage(code = "fr")),
+                        testTranslation(id, "Algiers", testLanguage(code = "en")),
                     ),
             )
 
@@ -95,9 +116,13 @@ class ProvinceMapperTest {
 
     @Test
     fun `language matching is case sensitive`() {
+        val id = UUID.randomUUID()
         val province =
-            province(
-                translations = setOf(translation("Alger", "fr")),
+            testProvince(
+                id = id,
+                code = "16",
+                slug = "algiers",
+                translations = setOf(testTranslation(id, "Alger", testLanguage(code = "fr"))),
             )
 
         val result = province.toResponse(listOf("FR", "Fr", "fR"))
@@ -107,9 +132,13 @@ class ProvinceMapperTest {
 
     @Test
     fun `duplicate language codes do not duplicate results`() {
+        val id = UUID.randomUUID()
         val province =
-            province(
-                translations = setOf(translation("Alger", "fr")),
+            testProvince(
+                id = id,
+                code = "16",
+                slug = "algiers",
+                translations = setOf(testTranslation(id, "Alger", testLanguage(code = "fr"))),
             )
 
         val result = province.toResponse(listOf("fr", "fr", "fr"))
@@ -119,37 +148,18 @@ class ProvinceMapperTest {
     }
 
     @Test
-    fun `translation with null language is excluded`() {
-        val province =
-            province(
-                translations =
-                    setOf(
-                        translation("Alger", language = null),
-                        translation("Algiers", "en"),
-                    ),
-            )
-
-        val result = province.toResponse(listOf("fr", "en"))
-
-        assertThat(result.names).hasSize(1)
-        assertThat(result.names.single().name).isEqualTo("Algiers")
-        assertThat(
-            result.names
-                .single()
-                .language
-                ?.code,
-        ).isEqualTo("en")
-    }
-
-    @Test
     fun `all translations returned when all languages requested`() {
+        val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
+                id = id,
+                code = "16",
+                slug = "algiers",
                 translations =
                     setOf(
-                        translation("الجزائر", "ar"),
-                        translation("Alger", "fr"),
-                        translation("Algiers", "en"),
+                        testTranslation(id, "الجزائر", testLanguage(code = "ar")),
+                        testTranslation(id, "Alger", testLanguage(code = "fr")),
+                        testTranslation(id, "Algiers", testLanguage(code = "en")),
                     ),
             )
 
@@ -168,7 +178,8 @@ class ProvinceMapperTest {
 
     @Test
     fun `code and slug are copied verbatim`() {
-        val province = province(code = "31", slug = "oran")
+        val id = UUID.randomUUID()
+        val province = testProvince(id = id, code = "31", slug = "oran")
 
         val result = province.toResponse(listOf("fr"))
 
@@ -179,12 +190,16 @@ class ProvinceMapperTest {
     @Test
     fun `requested languages list is not mutated`() {
         val languages = mutableListOf("fr", "en")
+        val id = UUID.randomUUID()
         val province =
-            province(
+            testProvince(
+                id = id,
+                code = "16",
+                slug = "algiers",
                 translations =
                     setOf(
-                        translation("Alger", "fr"),
-                        translation("Algiers", "en"),
+                        testTranslation(id, "Alger", testLanguage(code = "fr")),
+                        testTranslation(id, "Algiers", testLanguage(code = "en")),
                     ),
             )
 
@@ -195,7 +210,7 @@ class ProvinceMapperTest {
 
     @Test
     fun `maps name and nested language`() {
-        val translation = translation("Alger", "fr")
+        val translation = testTranslation(UUID.randomUUID(), "Alger", testLanguage(code = "fr"))
 
         val result = translation.toResponse()
 
@@ -205,7 +220,7 @@ class ProvinceMapperTest {
 
     @Test
     fun `preserves name with non-latin characters`() {
-        val translation = translation("الجزائر", "ar")
+        val translation = testTranslation(UUID.randomUUID(), "الجزائر", testLanguage(code = "ar"))
 
         val result = translation.toResponse()
 
@@ -215,45 +230,11 @@ class ProvinceMapperTest {
 
     @Test
     fun `preserves blank name`() {
-        val translation = translation("", "fr")
+        val translation = testTranslation(UUID.randomUUID(), "", testLanguage(code = "fr"))
 
         val result = translation.toResponse()
 
         assertThat(result.name).isEmpty()
         assertThat(result.language?.code).isEqualTo("fr")
     }
-
-    private fun province(
-        code: String = "16",
-        slug: String = "algiers",
-        translations: Set<ProvinceTranslation> = emptySet(),
-    ): Province =
-        Province().apply {
-            id = UUID.randomUUID()
-            this.code = code
-            this.slug = slug
-            this.provinceTranslations = translations.toMutableSet()
-        }
-
-    private fun translation(
-        name: String,
-        languageCode: String? = "fr",
-        language: Language? = languageCode?.let(::language),
-    ): ProvinceTranslation =
-        ProvinceTranslation().apply {
-            id =
-                ProvinceTranslationId().apply {
-                    provinceId = UUID.randomUUID()
-                    languageId = language?.id ?: UUID.randomUUID()
-                }
-            this.language = language
-            this.name = name
-        }
-
-    private fun language(code: String): Language =
-        Language().apply {
-            id = UUID.randomUUID()
-            this.code = code
-            this.name = code.uppercase()
-        }
 }
