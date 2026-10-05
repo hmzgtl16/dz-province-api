@@ -32,3 +32,5 @@ spring:
         - classpath:db/test-data.sql
   cache:
     type: none
+bucket4j:
+  enabled: false
