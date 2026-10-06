@@ -29,7 +29,7 @@ fun testProvince(
 ): Province =
     Province().apply {
         this.id = id
-        this.code = code
+        this.code = code.toShort()
         this.slug = slug
         this.provinceTranslations = translations.toMutableSet()
     }

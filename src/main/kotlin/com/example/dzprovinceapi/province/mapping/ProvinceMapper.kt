@@ -23,7 +23,7 @@ import com.example.dzprovinceapi.province.domain.ProvinceTranslation
 
 fun Province?.toResponse(languages: List<String>): ProvinceResponse =
     ProvinceResponse(
-        code = this?.code,
+        code = String.format("%02d", this?.code),
         slug = this?.slug,
         names =
             this

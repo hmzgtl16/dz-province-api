@@ -15,6 +15,7 @@
  */
 package com.example.dzprovinceapi.province.domain
 
+import com.example.dzprovinceapi.district.domain.District
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -29,11 +30,14 @@ class Province {
     var id: UUID? = null
 
     @Column(name = "code")
-    var code: String = ""
+    var code: Short = 0
 
     @Column(name = "slug")
     var slug: String = ""
 
     @OneToMany(mappedBy = "province")
     var provinceTranslations: MutableSet<ProvinceTranslation> = mutableSetOf()
+
+    @OneToMany(mappedBy = "province")
+    var districts: MutableSet<District> = mutableSetOf()
 }
