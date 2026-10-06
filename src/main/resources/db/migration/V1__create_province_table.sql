@@ -13,23 +13,23 @@
 -- limitations under the License.
 CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA public;
 
-CREATE TABLE IF NOT EXISTS province (
+CREATE TABLE IF NOT EXISTS public.province (
   id UUID PRIMARY KEY DEFAULT uuidv7 (),
-  code VARCHAR(100) NOT NULL UNIQUE,
+  code SMALLINT NOT NULL UNIQUE,
   slug VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS language (
+CREATE TABLE IF NOT EXISTS public.language (
   id UUID PRIMARY KEY DEFAULT uuidv7 (),
   code VARCHAR(2) NOT NULL UNIQUE, -- ISO 639-1: ar, fr, en
   name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS province_translation (
-  language_id UUID NOT NULL REFERENCES language (id) ON DELETE RESTRICT,
-  province_id UUID NOT NULL REFERENCES province (id) ON DELETE CASCADE,
+CREATE TABLE IF NOT EXISTS public.province_translation (
+  language_id UUID NOT NULL REFERENCES public.language (id) ON DELETE RESTRICT,
+  province_id UUID NOT NULL REFERENCES public.province (id) ON DELETE CASCADE,
   name VARCHAR(150) NOT NULL,
   PRIMARY KEY (province_id, language_id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_province_translation_name_trgm ON province_translation USING gin (name gin_trgm_ops);
+CREATE INDEX IF NOT EXISTS idx_province_translation_name_trgm ON public.province_translation USING gin (name gin_trgm_ops);
