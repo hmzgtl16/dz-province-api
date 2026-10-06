@@ -63,7 +63,7 @@ class ProvinceServiceImpl(
     @Transactional(readOnly = true)
     override fun getByCode(
         languages: List<String>,
-        code: String,
+        code: Short,
     ): ProvinceResponse {
         val province =
             provinceRepository

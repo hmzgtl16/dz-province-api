@@ -32,6 +32,6 @@ interface ProvinceService {
 
     fun getByCode(
         languages: List<String>,
-        code: String,
+        code: Short,
     ): ProvinceResponse
 }

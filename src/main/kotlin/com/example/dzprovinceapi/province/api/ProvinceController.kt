@@ -56,7 +56,7 @@ class ProvinceController(
     @GetMapping("/code/{code}")
     fun getProvinceByCode(
         @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
-        @PathVariable code: String,
+        @PathVariable code: Short,
     ): ResponseEntity<ProvinceResponse> {
         val response = provinceService.getByCode(languages, code)
         return ResponseEntity.status(HttpStatus.OK).body(response)
