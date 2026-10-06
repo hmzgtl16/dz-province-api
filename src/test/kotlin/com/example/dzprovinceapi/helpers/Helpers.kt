@@ -23,13 +23,13 @@ import java.util.UUID
 
 fun testProvince(
     id: UUID = UUID.randomUUID(),
-    code: String,
+    code: Short,
     slug: String,
     translations: Set<ProvinceTranslation> = emptySet(),
 ): Province =
     Province().apply {
         this.id = id
-        this.code = code.toShort()
+        this.code = code
         this.slug = slug
         this.provinceTranslations = translations.toMutableSet()
     }

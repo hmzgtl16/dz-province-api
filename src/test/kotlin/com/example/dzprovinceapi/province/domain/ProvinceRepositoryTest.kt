@@ -31,23 +31,23 @@ class ProvinceRepositoryTest : AbstractDataJpaTest() {
 
     @Test
     fun findProvinceByCode_returnsProvince_whenCodeExists() {
-        val result = provinceRepository.findProvinceByCode("16")
+        val result = provinceRepository.findProvinceByCode(16)
 
         assertThat(result).isNotNull
-        assertThat(result!!.code).isEqualTo("16")
+        assertThat(result!!.code).isEqualTo(16)
         assertThat(result.slug).isEqualTo("algiers")
     }
 
     @Test
     fun findProvinceByCode_returnsNull_whenCodeAbsent() {
-        val result = provinceRepository.findProvinceByCode("99")
+        val result = provinceRepository.findProvinceByCode(99)
 
         assertThat(result).isNull()
     }
 
     @Test
     fun findProvinceByCode_returnsExactMatch_whenMultipleExist() {
-        val result = provinceRepository.findProvinceByCode("31")
+        val result = provinceRepository.findProvinceByCode(31)
 
         assertThat(result).isNotNull
         assertThat(result!!.slug).isEqualTo("oran")
@@ -62,7 +62,7 @@ class ProvinceRepositoryTest : AbstractDataJpaTest() {
         val result = provinceRepository.findProvinceBySlug("algiers")
 
         assertThat(result).isNotNull
-        assertThat(result!!.code).isEqualTo("16")
+        assertThat(result!!.code).isEqualTo(16)
     }
 
     @Test
@@ -85,7 +85,7 @@ class ProvinceRepositoryTest : AbstractDataJpaTest() {
 
     @Test
     fun findProvinceByCode_loadsTranslations() {
-        val result = provinceRepository.findProvinceByCode("16")
+        val result = provinceRepository.findProvinceByCode(16)
 
         assertThat(result!!.provinceTranslations)
             .extracting(ProvinceTranslation::name)

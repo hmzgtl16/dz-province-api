@@ -38,7 +38,7 @@ class ProvinceMapperTest {
     fun `province with no translations maps to empty names`() {
         val province =
             testProvince(
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations = emptySet(),
             )
@@ -56,7 +56,7 @@ class ProvinceMapperTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
@@ -81,7 +81,7 @@ class ProvinceMapperTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
@@ -100,7 +100,7 @@ class ProvinceMapperTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
@@ -120,7 +120,7 @@ class ProvinceMapperTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations = setOf(testTranslation(id, "Alger", testLanguage(code = "fr"))),
             )
@@ -136,7 +136,7 @@ class ProvinceMapperTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations = setOf(testTranslation(id, "Alger", testLanguage(code = "fr"))),
             )
@@ -153,7 +153,7 @@ class ProvinceMapperTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
@@ -179,7 +179,7 @@ class ProvinceMapperTest {
     @Test
     fun `code and slug are copied verbatim`() {
         val id = UUID.randomUUID()
-        val province = testProvince(id = id, code = "31", slug = "oran")
+        val province = testProvince(id = id, code = 31, slug = "oran")
 
         val result = province.toResponse(listOf("fr"))
 
@@ -194,7 +194,7 @@ class ProvinceMapperTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
