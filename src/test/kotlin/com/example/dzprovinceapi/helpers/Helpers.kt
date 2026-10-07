@@ -34,7 +34,7 @@ fun testProvince(
         this.provinceTranslations = translations.toMutableSet()
     }
 
-fun testTranslation(
+fun testProvinceTranslation(
     provinceId: UUID,
     name: String,
     language: Language,

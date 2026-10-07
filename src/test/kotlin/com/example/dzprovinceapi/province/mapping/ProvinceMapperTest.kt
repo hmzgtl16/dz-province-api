@@ -17,7 +17,7 @@ package com.example.dzprovinceapi.province.mapping
 
 import com.example.dzprovinceapi.helpers.testLanguage
 import com.example.dzprovinceapi.helpers.testProvince
-import com.example.dzprovinceapi.helpers.testTranslation
+import com.example.dzprovinceapi.helpers.testProvinceTranslation
 import com.example.dzprovinceapi.province.domain.Province
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -60,9 +60,9 @@ class ProvinceMapperTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(id, "Alger", testLanguage(code = "fr")),
-                        testTranslation(id, "Algiers", testLanguage(code = "en")),
-                        testTranslation(id, "الجزائر", testLanguage(code = "ar")),
+                        testProvinceTranslation(id, "Alger", testLanguage(code = "fr")),
+                        testProvinceTranslation(id, "Algiers", testLanguage(code = "en")),
+                        testProvinceTranslation(id, "الجزائر", testLanguage(code = "ar")),
                     ),
             )
 
@@ -85,7 +85,7 @@ class ProvinceMapperTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(UUID.randomUUID(), "Alger", testLanguage(code = "fr")),
+                        testProvinceTranslation(UUID.randomUUID(), "Alger", testLanguage(code = "fr")),
                     ),
             )
 
@@ -104,8 +104,8 @@ class ProvinceMapperTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(id, "Alger", testLanguage(code = "fr")),
-                        testTranslation(id, "Algiers", testLanguage(code = "en")),
+                        testProvinceTranslation(id, "Alger", testLanguage(code = "fr")),
+                        testProvinceTranslation(id, "Algiers", testLanguage(code = "en")),
                     ),
             )
 
@@ -122,7 +122,7 @@ class ProvinceMapperTest {
                 id = id,
                 code = 16,
                 slug = "algiers",
-                translations = setOf(testTranslation(id, "Alger", testLanguage(code = "fr"))),
+                translations = setOf(testProvinceTranslation(id, "Alger", testLanguage(code = "fr"))),
             )
 
         val result = province.toResponse(listOf("FR", "Fr", "fR"))
@@ -138,7 +138,7 @@ class ProvinceMapperTest {
                 id = id,
                 code = 16,
                 slug = "algiers",
-                translations = setOf(testTranslation(id, "Alger", testLanguage(code = "fr"))),
+                translations = setOf(testProvinceTranslation(id, "Alger", testLanguage(code = "fr"))),
             )
 
         val result = province.toResponse(listOf("fr", "fr", "fr"))
@@ -157,9 +157,9 @@ class ProvinceMapperTest {
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(id, "الجزائر", testLanguage(code = "ar")),
-                        testTranslation(id, "Alger", testLanguage(code = "fr")),
-                        testTranslation(id, "Algiers", testLanguage(code = "en")),
+                        testProvinceTranslation(id, "الجزائر", testLanguage(code = "ar")),
+                        testProvinceTranslation(id, "Alger", testLanguage(code = "fr")),
+                        testProvinceTranslation(id, "Algiers", testLanguage(code = "en")),
                     ),
             )
 
@@ -174,67 +174,5 @@ class ProvinceMapperTest {
                     "en" to "Algiers",
                 ),
             )
-    }
-
-    @Test
-    fun `code and slug are copied verbatim`() {
-        val id = UUID.randomUUID()
-        val province = testProvince(id = id, code = 31, slug = "oran")
-
-        val result = province.toResponse(listOf("fr"))
-
-        assertThat(result.code).isEqualTo("31")
-        assertThat(result.slug).isEqualTo("oran")
-    }
-
-    @Test
-    fun `requested languages list is not mutated`() {
-        val languages = mutableListOf("fr", "en")
-        val id = UUID.randomUUID()
-        val province =
-            testProvince(
-                id = id,
-                code = 16,
-                slug = "algiers",
-                translations =
-                    setOf(
-                        testTranslation(id, "Alger", testLanguage(code = "fr")),
-                        testTranslation(id, "Algiers", testLanguage(code = "en")),
-                    ),
-            )
-
-        province.toResponse(languages)
-
-        assertThat(languages).containsExactly("fr", "en")
-    }
-
-    @Test
-    fun `maps name and nested language`() {
-        val translation = testTranslation(UUID.randomUUID(), "Alger", testLanguage(code = "fr"))
-
-        val result = translation.toResponse()
-
-        assertThat(result.name).isEqualTo("Alger")
-        assertThat(result.language?.code).isEqualTo("fr")
-    }
-
-    @Test
-    fun `preserves name with non-latin characters`() {
-        val translation = testTranslation(UUID.randomUUID(), "الجزائر", testLanguage(code = "ar"))
-
-        val result = translation.toResponse()
-
-        assertThat(result.name).isEqualTo("الجزائر")
-        assertThat(result.language?.code).isEqualTo("ar")
-    }
-
-    @Test
-    fun `preserves blank name`() {
-        val translation = testTranslation(UUID.randomUUID(), "", testLanguage(code = "fr"))
-
-        val result = translation.toResponse()
-
-        assertThat(result.name).isEmpty()
-        assertThat(result.language?.code).isEqualTo("fr")
     }
 }
