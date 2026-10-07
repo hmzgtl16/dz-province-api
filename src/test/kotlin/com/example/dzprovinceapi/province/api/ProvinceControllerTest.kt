@@ -46,8 +46,8 @@ class ProvinceControllerTest : AbstractWebMvcTest() {
             .hasPathSatisfying("number") { it.assertThat().isEqualTo(0) }
             .hasPathSatisfying("number-of-elements") { it.assertThat().isEqualTo(10) }
             .hasPathSatisfying("size") { it.assertThat().isEqualTo(10) }
-            .hasPathSatisfying("total-elements") { it.assertThat().isEqualTo(69) }
-            .hasPathSatisfying("total-pages") { it.assertThat().isEqualTo(7) }
+            .hasPathSatisfying("total-elements") { it.assertThat().isEqualTo(31) }
+            .hasPathSatisfying("total-pages") { it.assertThat().isEqualTo(4) }
             .hasPathSatisfying("content") { it.assertThat().isNotEmpty }
     }
 
@@ -67,8 +67,8 @@ class ProvinceControllerTest : AbstractWebMvcTest() {
             .hasPathSatisfying("number") { it.assertThat().isEqualTo(0) }
             .hasPathSatisfying("number-of-elements") { it.assertThat().isEqualTo(10) }
             .hasPathSatisfying("size") { it.assertThat().isEqualTo(10) }
-            .hasPathSatisfying("total-elements") { it.assertThat().isEqualTo(69) }
-            .hasPathSatisfying("total-pages") { it.assertThat().isEqualTo(7) }
+            .hasPathSatisfying("total-elements") { it.assertThat().isEqualTo(31) }
+            .hasPathSatisfying("total-pages") { it.assertThat().isEqualTo(4) }
             .hasPathSatisfying("content") { it.assertThat().isNotEmpty }
     }
 
