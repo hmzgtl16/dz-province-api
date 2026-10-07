@@ -13,25 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.service
+package com.example.dzprovinceapi.district.api.dto
 
-import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import kotlinx.serialization.Serializable
 
-interface ProvinceService {
-    fun getAllProvinces(
-        languages: List<String>,
-        pageable: Pageable,
-    ): Page<ProvinceResponse>
-
-    fun getBySlug(
-        languages: List<String>,
-        slug: String,
-    ): ProvinceResponse
-
-    fun getByCode(
-        languages: List<String>,
-        code: Short,
-    ): ProvinceResponse
-}
+@Serializable
+data class DistrictResponse(
+    val slug: String?,
+    val names: List<DistrictNameResponse>,
+)

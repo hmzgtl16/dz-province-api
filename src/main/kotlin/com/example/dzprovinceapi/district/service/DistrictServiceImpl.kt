@@ -13,64 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.service
+package com.example.dzprovinceapi.district.service
 
-import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
-import com.example.dzprovinceapi.province.domain.Province
-import com.example.dzprovinceapi.province.domain.ProvinceRepository
-import com.example.dzprovinceapi.province.mapping.toResponse
-import com.example.dzprovinceapi.shared.error.ProvinceCodeNotFoundException
-import com.example.dzprovinceapi.shared.error.ProvinceSlugNotFoundException
+import com.example.dzprovinceapi.district.api.dto.DistrictResponse
+import com.example.dzprovinceapi.district.domain.DistrictRepository
+import com.example.dzprovinceapi.district.mapping.toResponse
+import com.example.dzprovinceapi.shared.error.DistrictSlugNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ProvinceServiceImpl(
-    private val provinceRepository: ProvinceRepository,
-) : ProvinceService {
+class DistrictServiceImpl(
+    private val districtRepository: DistrictRepository,
+) : DistrictService {
     @Transactional(readOnly = true)
-    override fun getAllProvinces(
+    override fun getAllDistricts(
         languages: List<String>,
         pageable: Pageable,
-    ): Page<ProvinceResponse> {
-        val provinces = provinceRepository.findAll(pageable)
+    ): Page<DistrictResponse> {
+        val districts = districtRepository.findAll(pageable)
         val response =
-            provinces.map {
+            districts.map {
                 it.toResponse(languages.normalizeOrDefaults())
             }
 
         return response
     }
 
-    @Transactional(readOnly = true)
     override fun getBySlug(
         languages: List<String>,
         slug: String,
-    ): ProvinceResponse {
-        val province =
-            provinceRepository
-                .findProvinceBySlug(slug)
-                ?: throw ProvinceSlugNotFoundException(slug)
+    ): DistrictResponse {
+        val district =
+            districtRepository.findDistrictBySlug(slug)
+                ?: throw DistrictSlugNotFoundException(slug)
         val response =
-            province
-                .toResponse(languages.normalizeOrDefaults())
-
-        return response
-    }
-
-    @Transactional(readOnly = true)
-    override fun getByCode(
-        languages: List<String>,
-        code: Short,
-    ): ProvinceResponse {
-        val province =
-            provinceRepository
-                .findProvinceByCode(code)
-                ?: throw ProvinceCodeNotFoundException(code)
-        val response =
-            province
+            district
                 .toResponse(languages.normalizeOrDefaults())
 
         return response

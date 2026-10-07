@@ -15,6 +15,9 @@
  */
 package com.example.dzprovinceapi.helpers
 
+import com.example.dzprovinceapi.district.domain.District
+import com.example.dzprovinceapi.district.domain.DistrictTranslation
+import com.example.dzprovinceapi.district.domain.DistrictTranslationId
 import com.example.dzprovinceapi.language.domain.Language
 import com.example.dzprovinceapi.province.domain.Province
 import com.example.dzprovinceapi.province.domain.ProvinceTranslation
@@ -23,7 +26,7 @@ import java.util.UUID
 
 fun testProvince(
     id: UUID = UUID.randomUUID(),
-    code: String,
+    code: Short,
     slug: String,
     translations: Set<ProvinceTranslation> = emptySet(),
 ): Province =
@@ -34,7 +37,7 @@ fun testProvince(
         this.provinceTranslations = translations.toMutableSet()
     }
 
-fun testTranslation(
+fun testProvinceTranslation(
     provinceId: UUID,
     name: String,
     language: Language,
@@ -64,4 +67,30 @@ fun testLanguage(
                 "en" -> "English"
                 else -> name ?: "Unknown"
             }
+    }
+
+fun testDistrict(
+    id: UUID = UUID.randomUUID(),
+    slug: String,
+    translations: Set<DistrictTranslation> = emptySet(),
+): District =
+    District().apply {
+        this.id = id
+        this.slug = slug
+        this.districtTranslations = translations.toMutableSet()
+    }
+
+fun testDistrictTranslation(
+    districtId: UUID,
+    name: String,
+    language: Language,
+): DistrictTranslation =
+    DistrictTranslation().apply {
+        id =
+            DistrictTranslationId().apply {
+                this.districtId = districtId
+                this.languageId = language.id
+            }
+        this.language = language
+        this.name = name
     }

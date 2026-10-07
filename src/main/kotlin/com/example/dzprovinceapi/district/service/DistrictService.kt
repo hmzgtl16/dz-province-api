@@ -13,12 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.shared
+package com.example.dzprovinceapi.district.service
 
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
-import org.springframework.test.context.ActiveProfiles
+import com.example.dzprovinceapi.district.api.dto.DistrictResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 
-@SpringBootTest
-@AutoConfigureMockMvc
-abstract class AbstractWebMvcTest : AbstractTestcontainers()
+interface DistrictService {
+    fun getAllDistricts(
+        languages: List<String>,
+        pageable: Pageable,
+    ): Page<DistrictResponse>
+
+    fun getBySlug(
+        languages: List<String>,
+        slug: String,
+    ): DistrictResponse
+}

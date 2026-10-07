@@ -13,25 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.service
+package com.example.dzprovinceapi.district.domain
 
-import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+import java.util.UUID
 
-interface ProvinceService {
-    fun getAllProvinces(
-        languages: List<String>,
-        pageable: Pageable,
-    ): Page<ProvinceResponse>
-
-    fun getBySlug(
-        languages: List<String>,
-        slug: String,
-    ): ProvinceResponse
-
-    fun getByCode(
-        languages: List<String>,
-        code: Short,
-    ): ProvinceResponse
+@Repository
+interface DistrictRepository : JpaRepository<District, UUID> {
+    fun findDistrictBySlug(slug: String): District?
 }

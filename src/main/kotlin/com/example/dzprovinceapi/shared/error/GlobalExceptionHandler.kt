@@ -37,4 +37,11 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
             title = "Province not found"
             type = URI.create("about:blank")
         }
+
+    @ExceptionHandler(DistrictSlugNotFoundException::class)
+    fun handleDistrictSlugNotFound(ex: DistrictSlugNotFoundException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message).apply {
+            title = "District not found"
+            type = URI.create("about:blank")
+        }
 }

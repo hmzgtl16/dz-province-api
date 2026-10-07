@@ -13,27 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.mapping
+package com.example.dzprovinceapi.district.mapping
 
+import com.example.dzprovinceapi.district.api.dto.DistrictNameResponse
+import com.example.dzprovinceapi.district.api.dto.DistrictResponse
+import com.example.dzprovinceapi.district.domain.District
+import com.example.dzprovinceapi.district.domain.DistrictTranslation
 import com.example.dzprovinceapi.language.mapping.toResponse
-import com.example.dzprovinceapi.province.api.dto.ProvinceNameResponse
-import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
-import com.example.dzprovinceapi.province.domain.Province
-import com.example.dzprovinceapi.province.domain.ProvinceTranslation
 
-fun Province?.toResponse(languages: List<String>): ProvinceResponse =
-    ProvinceResponse(
-        code = this?.code?.let { String.format("%02d", it) },
+fun District?.toResponse(languages: List<String>): DistrictResponse =
+    DistrictResponse(
         slug = this?.slug,
         names =
             this
-                ?.provinceTranslations
+                ?.districtTranslations
                 ?.filter { languages.contains(it.language?.code) }
                 ?.map { it.toResponse() } ?: emptyList(),
     )
 
-fun ProvinceTranslation.toResponse(): ProvinceNameResponse =
-    ProvinceNameResponse(
+fun DistrictTranslation.toResponse(): DistrictNameResponse =
+    DistrictNameResponse(
         name = name,
-        language = language.toResponse(),
+        language = language?.toResponse(),
     )

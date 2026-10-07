@@ -17,12 +17,8 @@ package com.example.dzprovinceapi.province.service
 
 import com.example.dzprovinceapi.helpers.testLanguage
 import com.example.dzprovinceapi.helpers.testProvince
-import com.example.dzprovinceapi.helpers.testTranslation
-import com.example.dzprovinceapi.language.domain.Language
-import com.example.dzprovinceapi.province.domain.Province
+import com.example.dzprovinceapi.helpers.testProvinceTranslation
 import com.example.dzprovinceapi.province.domain.ProvinceRepository
-import com.example.dzprovinceapi.province.domain.ProvinceTranslation
-import com.example.dzprovinceapi.province.domain.ProvinceTranslationId
 import com.example.dzprovinceapi.shared.error.ProvinceCodeNotFoundException
 import com.example.dzprovinceapi.shared.error.ProvinceSlugNotFoundException
 import org.assertj.core.api.Assertions.assertThat
@@ -31,7 +27,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
@@ -56,7 +51,7 @@ class ProvinceServiceTest {
     @Test
     fun `getAllProvinces returns a page of mapped responses`() {
         val province =
-            testProvince(code = "16", slug = "algiers", translations = emptySet())
+            testProvince(code = 16, slug = "algiers", translations = emptySet())
 
         val pageable = PageRequest.of(0, 10)
         val provincePage = PageImpl(listOf(province), pageable, 1)
@@ -66,7 +61,7 @@ class ProvinceServiceTest {
 
         assertThat(result.totalElements).isEqualTo(1)
         assertThat(result.content).isNotEmpty
-        assertThat(result.content[0].code).isEqualTo(province.code)
+        assertThat(result.content[0].code).isEqualTo("16")
         assertThat(result.content[0].slug).isEqualTo(province.slug)
         assertThat(result.content[0].names).isEmpty()
 
@@ -79,13 +74,21 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
@@ -97,7 +100,7 @@ class ProvinceServiceTest {
 
         assertThat(result.totalElements).isEqualTo(1)
         assertThat(result.content).isNotEmpty
-        assertThat(result.content[0].code).isEqualTo(province.code)
+        assertThat(result.content[0].code).isEqualTo("16")
         assertThat(result.content[0].slug).isEqualTo(province.slug)
         assertThat(result.content[0].names).hasSize(province.provinceTranslations.size)
         assertThat(result.content[0].names.map { it.language?.code }).containsExactlyInAnyOrder("ar", "en", "fr")
@@ -111,13 +114,21 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
@@ -145,13 +156,21 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
@@ -178,13 +197,21 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
@@ -225,13 +252,21 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
@@ -265,13 +300,21 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
@@ -292,13 +335,21 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
@@ -322,36 +373,44 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
-        `when`(provinceRepository.findProvinceByCode("16")).thenReturn(province)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
-        val result = provinceService.getByCode(emptyList(), "16")
+        val result = provinceService.getByCode(emptyList(), 16)
 
         assertThat(result.code).isEqualTo("16")
         assertThat(result.slug).isEqualTo("algiers")
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("ar", "en", "fr")
 
-        verify(provinceRepository).findProvinceByCode("16")
+        verify(provinceRepository).findProvinceByCode(16)
     }
 
     @Test
     fun `getByCode throws ProvinceCodeNotFoundException when no province matches`() {
-        `when`(provinceRepository.findProvinceByCode("99")).thenReturn(null)
+        `when`(provinceRepository.findProvinceByCode(99)).thenReturn(null)
 
-        assertThatThrownBy { provinceService.getByCode(emptyList(), "99") }
+        assertThatThrownBy { provinceService.getByCode(emptyList(), 99) }
             .isInstanceOf(ProvinceCodeNotFoundException::class.java)
 
-        verify(provinceRepository).findProvinceByCode("99")
+        verify(provinceRepository).findProvinceByCode(99)
     }
 
     @Test
@@ -360,25 +419,33 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
-        `when`(provinceRepository.findProvinceByCode("16")).thenReturn(province)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
         val result =
-            provinceService.getByCode(listOf("EN, fr", "en", "!"), "16")
+            provinceService.getByCode(listOf("EN, fr", "en", "!"), 16)
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("en", "fr")
 
-        verify(provinceRepository).findProvinceByCode("16")
+        verify(provinceRepository).findProvinceByCode(16)
     }
 
     @Test
@@ -387,23 +454,31 @@ class ProvinceServiceTest {
         val province =
             testProvince(
                 id = id,
-                code = "16",
+                code = 16,
                 slug = "algiers",
                 translations =
                     setOf(
-                        testTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testTranslation(provinceId = id, name = "Algiers", language = testLanguage(code = "en")),
-                        testTranslation(provinceId = id, name = "الجزائر", language = testLanguage(code = "ar")),
+                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "Algiers",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testProvinceTranslation(
+                            provinceId = id,
+                            name = "الجزائر",
+                            language = testLanguage(code = "ar"),
+                        ),
                     ),
             )
 
-        `when`(provinceRepository.findProvinceByCode("16")).thenReturn(province)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
-        val result = provinceService.getByCode(emptyList(), "16")
+        val result = provinceService.getByCode(emptyList(), 16)
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("ar", "en", "fr")
 
-        verify(provinceRepository).findProvinceByCode("16")
+        verify(provinceRepository).findProvinceByCode(16)
     }
 }

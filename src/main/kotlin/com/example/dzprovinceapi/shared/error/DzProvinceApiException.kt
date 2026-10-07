@@ -20,9 +20,13 @@ sealed class DzProvinceApiException(
 ) : RuntimeException()
 
 class ProvinceCodeNotFoundException(
-    code: String,
+    code: Short,
 ) : DzProvinceApiException(message = "No province exists with code $code.")
 
 class ProvinceSlugNotFoundException(
     slug: String,
 ) : DzProvinceApiException(message = "No province exists with slug $slug.")
+
+class DistrictSlugNotFoundException(
+    slug: String,
+) : DzProvinceApiException(message = "No district exists with slug $slug.")

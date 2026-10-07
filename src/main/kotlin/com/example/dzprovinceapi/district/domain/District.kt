@@ -13,31 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.dzprovinceapi.province.domain
+package com.example.dzprovinceapi.district.domain
 
-import com.example.dzprovinceapi.district.domain.District
+import com.example.dzprovinceapi.province.domain.Province
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.MapsId
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
+import org.hibernate.annotations.ColumnDefault
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.util.UUID
 
 @Entity
-@Table(name = "province", schema = "public")
-class Province {
+@Table(name = "district", schema = "public")
+class District {
     @Id
     var id: UUID? = null
-
-    @Column(name = "code")
-    var code: Short = 0
 
     @Column(name = "slug")
     var slug: String = ""
 
-    @OneToMany(mappedBy = "province")
-    var provinceTranslations: MutableSet<ProvinceTranslation> = mutableSetOf()
+    @OneToMany(mappedBy = "district")
+    var districtTranslations: MutableSet<DistrictTranslation> =
+        mutableSetOf()
 
-    @OneToMany(mappedBy = "province")
-    var districts: MutableSet<District> = mutableSetOf()
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "province_id")
+    var province: Province? = null
 }
