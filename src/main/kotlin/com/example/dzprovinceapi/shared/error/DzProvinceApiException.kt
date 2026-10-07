@@ -30,3 +30,11 @@ class ProvinceSlugNotFoundException(
 class DistrictSlugNotFoundException(
     slug: String,
 ) : DzProvinceApiException(message = "No district exists with slug $slug.")
+
+class MunicipalityCodeNotFoundException(
+    code: Short,
+) : DzProvinceApiException(message = "No municipality exists with code $code.")
+
+class MunicipalitySlugNotFoundException(
+    slug: String,
+) : DzProvinceApiException(message = "No municipality exists with slug $slug.")
