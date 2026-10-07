@@ -57,10 +57,8 @@ dependencies {
     testImplementation(libs.spring.boot.starter.kotlinx.serialization.json.test)
     testImplementation(libs.spring.boot.starter.security.test)
     testImplementation(libs.spring.boot.starter.webmvc.test)
-    testImplementation(libs.spring.boot.testcontainers)
     testImplementation(libs.kotlin.test.junit5)
-    testImplementation(libs.testcontainers.junit.jupiter)
-    testImplementation(libs.testcontainers.postgresql)
+    testRuntimeOnly(libs.h2database)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 
