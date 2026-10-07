@@ -15,13 +15,16 @@
  */
 package com.example.dzprovinceapi.district.domain
 
-import com.example.dzprovinceapi.shared.AbstractDataJpaTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.groups.Tuple
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
+import org.springframework.test.context.ActiveProfiles
 
-class DistrictRepositoryTest : AbstractDataJpaTest() {
+@DataJpaTest
+@ActiveProfiles("test")
+class DistrictRepositoryTest {
     @Autowired
     private lateinit var districtRepository: DistrictRepository
 
