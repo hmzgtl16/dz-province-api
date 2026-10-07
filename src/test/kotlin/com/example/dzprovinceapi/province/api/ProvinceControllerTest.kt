@@ -15,13 +15,18 @@
  */
 package com.example.dzprovinceapi.province.api
 
-import com.example.dzprovinceapi.shared.AbstractWebMvcTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.assertj.MockMvcTester
 
-class ProvinceControllerTest : AbstractWebMvcTest() {
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+class ProvinceControllerTest {
     @Autowired
     private lateinit var mockMvcTester: MockMvcTester
 
