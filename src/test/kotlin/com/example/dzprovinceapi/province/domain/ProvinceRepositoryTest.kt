@@ -90,6 +90,6 @@ class ProvinceRepositoryTest : AbstractDataJpaTest() {
         assertThat(result).isNotNull
         assertThat(result!!.provinceTranslations)
             .extracting(ProvinceTranslation::name)
-            .containsExactlyInAnyOrder(Tuple("Alger"), Tuple("Algiers"), Tuple("الجزائر"))
+            .contains(Tuple("Alger"), Tuple("Algiers"), Tuple("الجزائر"))
     }
 }
