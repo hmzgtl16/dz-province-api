@@ -34,7 +34,7 @@ class DistrictController(
 ) {
     @GetMapping
     fun getDistricts(
-        @RequestParam(name = "lang", required = false) languages: List<String>,
+        @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
         @PageableDefault pageable: Pageable,
     ): ResponseEntity<Page<DistrictResponse>> {
         val response = districtService.getAllDistricts(languages, pageable)
@@ -43,7 +43,7 @@ class DistrictController(
 
     @GetMapping("/slug/{slug}")
     fun getDistrictBySlug(
-        @RequestParam(name = "lang", required = false) languages: List<String>,
+        @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
         @PathVariable slug: String,
     ): ResponseEntity<DistrictResponse> {
         val response = districtService.getBySlug(languages, slug)

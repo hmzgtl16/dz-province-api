@@ -37,7 +37,7 @@ class ProvinceController(
 ) {
     @GetMapping
     fun getProvinces(
-        @RequestParam(name = "lang", required = false) languages: List<String> = emptyList(),
+        @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
         @PageableDefault pageable: Pageable,
     ): ResponseEntity<Page<ProvinceResponse>> {
         val response = provinceService.getAllProvinces(languages, pageable)
