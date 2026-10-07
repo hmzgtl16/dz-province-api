@@ -87,8 +87,9 @@ class ProvinceRepositoryTest : AbstractDataJpaTest() {
     fun findProvinceByCode_loadsTranslations() {
         val result = provinceRepository.findProvinceByCode(16)
 
+        assertThat(result).isNotNull
         assertThat(result!!.provinceTranslations)
             .extracting(ProvinceTranslation::name)
-            .containsExactlyInAnyOrder(Tuple("Alger"), Tuple("الجزائر"), Tuple("Algiers"))
+            .containsExactlyInAnyOrder(Tuple("Alger"), Tuple("Algiers"), Tuple("الجزائر"))
     }
 }
