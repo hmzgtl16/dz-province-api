@@ -19,7 +19,9 @@ import com.example.dzprovinceapi.district.domain.DistrictRepository
 import com.example.dzprovinceapi.helpers.testDistrict
 import com.example.dzprovinceapi.helpers.testDistrictTranslation
 import com.example.dzprovinceapi.helpers.testLanguage
+import com.example.dzprovinceapi.shared.error.DistrictSlugNotFoundException
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
@@ -293,13 +295,11 @@ class DistrictServiceTest {
     }
 
     @Test
-    fun `getBySlug returns an empty response when no district matches`() {
+    fun `getBySlug throws DistrictSlugNotFoundException when no district matches`() {
         `when`(districtRepository.findDistrictBySlug("unknown")).thenReturn(null)
 
-        val result = districtService.getBySlug(emptyList(), "unknown")
-
-        assertThat(result.slug).isNull()
-        assertThat(result.names).isEmpty()
+        assertThatThrownBy { districtService.getBySlug(emptyList(), "unknown") }
+            .isInstanceOf(DistrictSlugNotFoundException::class.java)
 
         verify(districtRepository).findDistrictBySlug("unknown")
     }
