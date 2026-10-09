@@ -2289,4 +2289,4 @@ SELECT
 FROM
   district_data dd
   JOIN district d ON d.slug = dd.d_slug
-  JOIN language l ON l.code = dd.l_code;
+  JOIN LANGUAGE l ON l.code = dd.l_code;
