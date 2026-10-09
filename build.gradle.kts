@@ -118,17 +118,12 @@ spotless {
                 "prettier" to libs.versions.prettier.get(),
                 "prettier-plugin-sql" to libs.versions.prettierPluginSql.get(),
             ),
-        ).configFile(".prettierrc")
-            .config(
-                mapOf(
-                    "parser" to "sql",
-                    "plugins" to listOf("prettier-plugin-sql"),
-                ),
-            )
+        ).config(
+            mapOf(
+                "parser" to "sql",
+                "plugins" to listOf("prettier-plugin-sql"),
+            ),
+        )
         licenseHeaderFile(rootDir.resolve("spotless/license-header.sql"), "^[^-]")
     }
-}
-
-tasks.withType<SpotlessTask>().configureEach {
-    notCompatibleWithConfigurationCache("Spotless idea() step cannot be serialized")
 }
