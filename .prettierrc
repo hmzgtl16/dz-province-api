@@ -1,0 +1,28 @@
+{
+  "printWidth": 100,
+  "useTabs": false,
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": ["*.yaml", "*.yml"],
+      "options": {
+        "tabWidth": 2,
+        "singleQuote": true,
+        "bracketSpacing": true
+      }
+    },
+    {
+      "files": "*.sql",
+      "options": {
+        "tabWidth": 4,
+        "language": "postgresql",
+        "keywordCase": "upper",
+        "identifierCase": "lower",
+        "dataTypeCase": "upper",
+        "functionCase": "lower",
+        "expressionWidth": 60,
+        "linesBetweenQueries": 2
+      }
+    }
+  ]
+}
