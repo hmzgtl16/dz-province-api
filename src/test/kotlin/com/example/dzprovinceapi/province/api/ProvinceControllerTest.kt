@@ -89,60 +89,6 @@ class ProvinceControllerTest {
     }
 
     // ------------------------------------------------------------------
-    // getProvinceBySlug
-    // ------------------------------------------------------------------
-
-    @Test
-    fun `getProvinceBySlug should return 200`() {
-        val result =
-            mockMvcTester
-                .get()
-                .uri("/api/1.0/provinces/slug/algiers")
-                .param("lang", "en")
-
-        assertThat(result)
-            .hasStatusOk()
-            .bodyJson()
-            .hasPathSatisfying("$.slug") { it.assertThat().isEqualTo("algiers") }
-    }
-
-    @Test
-    fun `getProvinceBySlug without lang should pass an empty list to the service`() {
-        val result =
-            mockMvcTester
-                .get()
-                .uri("/api/1.0/provinces/slug/algiers")
-
-        assertThat(result)
-            .hasStatusOk()
-            .bodyJson()
-            .hasPathSatisfying("$.slug") { it.assertThat().isEqualTo("algiers") }
-    }
-
-    @Test
-    fun `getProvinceBySlug when not found should return 404`() {
-        val result =
-            mockMvcTester
-                .get()
-                .uri("/api/1.0/provinces/slug/unknown")
-                .param("lang", "en")
-
-        assertThat(result)
-            .hasStatus(404)
-    }
-
-    @Test
-    fun `getProvinceBySlug without version segment should return 404`() {
-        val result =
-            mockMvcTester
-                .get()
-                .uri("/api/provinces/slug/algiers")
-
-        assertThat(result)
-            .hasStatus(404)
-    }
-
-    // ------------------------------------------------------------------
     // getProvinceByCode
     // ------------------------------------------------------------------
 
@@ -151,7 +97,7 @@ class ProvinceControllerTest {
         val result =
             mockMvcTester
                 .get()
-                .uri("/api/1.0/provinces/code/16")
+                .uri("/api/1.0/provinces/16")
                 .param("lang", "fr")
 
         assertThat(result)
@@ -165,7 +111,7 @@ class ProvinceControllerTest {
         val result =
             mockMvcTester
                 .get()
-                .uri("/api/1.0/provinces/code/16")
+                .uri("/api/1.0/provinces/16")
 
         assertThat(result)
             .hasStatusOk()
@@ -178,7 +124,7 @@ class ProvinceControllerTest {
         val result =
             mockMvcTester
                 .get()
-                .uri("/api/1.0/provinces/code/99")
+                .uri("/api/1.0/provinces/99")
                 .param("lang", "en")
 
         assertThat(result)
@@ -190,7 +136,131 @@ class ProvinceControllerTest {
         val result =
             mockMvcTester
                 .get()
-                .uri("/api/provinces/code/16")
+                .uri("/api/provinces/16")
+
+        assertThat(result)
+            .hasStatus(404)
+    }
+
+    // ------------------------------------------------------------------
+    // getDistrictsByProvinceCode
+    // ------------------------------------------------------------------
+
+    @Test
+    fun `getDistrictsByProvinceCode should return 200 with page`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/1.0/provinces/16/districts")
+                .param("lang", "en", "fr")
+
+        assertThat(result)
+            .hasStatusOk()
+            .bodyJson()
+            .hasPathSatisfying("empty") { it.assertThat().isEqualTo(false) }
+            .hasPathSatisfying("first") { it.assertThat().isEqualTo(true) }
+            .hasPathSatisfying("number") { it.assertThat().isEqualTo(0) }
+            .hasPathSatisfying("size") { it.assertThat().isEqualTo(10) }
+            .hasPathSatisfying("content") { it.assertThat().isNotEmpty }
+    }
+
+    @Test
+    fun `getDistrictsByProvinceCode without lang should use empty list`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/1.0/provinces/16/districts")
+
+        assertThat(result)
+            .hasStatusOk()
+            .bodyJson()
+            .hasPathSatisfying("empty") { it.assertThat().isEqualTo(false) }
+            .hasPathSatisfying("first") { it.assertThat().isEqualTo(true) }
+            .hasPathSatisfying("number") { it.assertThat().isEqualTo(0) }
+            .hasPathSatisfying("size") { it.assertThat().isEqualTo(10) }
+            .hasPathSatisfying("content") { it.assertThat().isNotEmpty }
+    }
+
+    @Test
+    fun `getDistrictsByProvinceCode when province not found should return 404`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/1.0/provinces/99/districts")
+                .param("lang", "en")
+
+        assertThat(result)
+            .hasStatus(404)
+    }
+
+    @Test
+    fun `getDistrictsByProvinceCode without version segment should return 404`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/provinces/16/districts")
+
+        assertThat(result)
+            .hasStatus(404)
+    }
+
+    // ------------------------------------------------------------------
+    // getMunicipalitiesByProvinceCode
+    // ------------------------------------------------------------------
+
+    @Test
+    fun `getMunicipalitiesByProvinceCode should return 200 with page`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/1.0/provinces/16/municipalities")
+                .param("lang", "en", "fr")
+
+        assertThat(result)
+            .hasStatusOk()
+            .bodyJson()
+            .hasPathSatisfying("empty") { it.assertThat().isEqualTo(false) }
+            .hasPathSatisfying("first") { it.assertThat().isEqualTo(true) }
+            .hasPathSatisfying("number") { it.assertThat().isEqualTo(0) }
+            .hasPathSatisfying("size") { it.assertThat().isEqualTo(10) }
+            .hasPathSatisfying("content") { it.assertThat().isNotEmpty }
+    }
+
+    @Test
+    fun `getMunicipalitiesByProvinceCode without lang should use empty list`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/1.0/provinces/16/municipalities")
+
+        assertThat(result)
+            .hasStatusOk()
+            .bodyJson()
+            .hasPathSatisfying("empty") { it.assertThat().isEqualTo(false) }
+            .hasPathSatisfying("first") { it.assertThat().isEqualTo(true) }
+            .hasPathSatisfying("number") { it.assertThat().isEqualTo(0) }
+            .hasPathSatisfying("size") { it.assertThat().isEqualTo(10) }
+            .hasPathSatisfying("content") { it.assertThat().isNotEmpty }
+    }
+
+    @Test
+    fun `getMunicipalitiesByProvinceCode when province not found should return 404`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/1.0/provinces/99/municipalities")
+                .param("lang", "en")
+
+        assertThat(result)
+            .hasStatus(404)
+    }
+
+    @Test
+    fun `getMunicipalitiesByProvinceCode without version segment should return 404`() {
+        val result =
+            mockMvcTester
+                .get()
+                .uri("/api/provinces/16/municipalities")
 
         assertThat(result)
             .hasStatus(404)
