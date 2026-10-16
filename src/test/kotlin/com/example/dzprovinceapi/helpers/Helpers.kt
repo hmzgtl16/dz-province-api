@@ -19,6 +19,9 @@ import com.example.dzprovinceapi.district.domain.District
 import com.example.dzprovinceapi.district.domain.DistrictTranslation
 import com.example.dzprovinceapi.district.domain.DistrictTranslationId
 import com.example.dzprovinceapi.language.domain.Language
+import com.example.dzprovinceapi.municipality.domain.Municipality
+import com.example.dzprovinceapi.municipality.domain.MunicipalityTranslation
+import com.example.dzprovinceapi.municipality.domain.MunicipalityTranslationId
 import com.example.dzprovinceapi.province.domain.Province
 import com.example.dzprovinceapi.province.domain.ProvinceTranslation
 import com.example.dzprovinceapi.province.domain.ProvinceTranslationId
@@ -89,6 +92,34 @@ fun testDistrictTranslation(
         id =
             DistrictTranslationId().apply {
                 this.districtId = districtId
+                this.languageId = language.id
+            }
+        this.language = language
+        this.name = name
+    }
+
+fun testMunicipality(
+    id: UUID = UUID.randomUUID(),
+    code: Short,
+    slug: String,
+    translations: Set<MunicipalityTranslation> = emptySet(),
+): Municipality =
+    Municipality().apply {
+        this.id = id
+        this.code = code
+        this.slug = slug
+        this.municipalityTranslations = translations.toMutableSet()
+    }
+
+fun testMunicipalityTranslation(
+    municipalityId: UUID,
+    name: String,
+    language: Language,
+): MunicipalityTranslation =
+    MunicipalityTranslation().apply {
+        id =
+            MunicipalityTranslationId().apply {
+                this.municipalityId = municipalityId
                 this.languageId = language.id
             }
         this.language = language
