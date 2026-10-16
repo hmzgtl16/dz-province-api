@@ -15,6 +15,8 @@
  */
 package com.example.dzprovinceapi.province.api
 
+import com.example.dzprovinceapi.district.api.dto.DistrictResponse
+import com.example.dzprovinceapi.municipality.api.dto.MunicipalityResponse
 import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import com.example.dzprovinceapi.province.service.ProvinceService
 import org.springframework.data.domain.Page
@@ -42,21 +44,32 @@ class ProvinceController(
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 
-    @GetMapping("/slug/{slug}")
-    fun getProvinceBySlug(
-        @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
-        @PathVariable slug: String,
-    ): ResponseEntity<ProvinceResponse> {
-        val response = provinceService.getProvinceBySlug(languages, slug)
-        return ResponseEntity.status(HttpStatus.OK).body(response)
-    }
-
-    @GetMapping("/code/{code}")
+    @GetMapping("/{code}")
     fun getProvinceByCode(
         @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
         @PathVariable code: Short,
     ): ResponseEntity<ProvinceResponse> {
         val response = provinceService.getProvinceByCode(languages, code)
+        return ResponseEntity.status(HttpStatus.OK).body(response)
+    }
+
+    @GetMapping("/{code}/districts")
+    fun getDistrictsByProvinceCode(
+        @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
+        @PathVariable code: Short,
+        @PageableDefault pageable: Pageable,
+    ): ResponseEntity<Page<DistrictResponse>> {
+        val response = provinceService.getProvinceDistrictsByCode(languages, code, pageable)
+        return ResponseEntity.status(HttpStatus.OK).body(response)
+    }
+
+    @GetMapping("/{code}/municipalities")
+    fun getMunicipalitiesByProvinceCode(
+        @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
+        @PathVariable code: Short,
+        @PageableDefault pageable: Pageable,
+    ): ResponseEntity<Page<MunicipalityResponse>> {
+        val response = provinceService.getProvinceMunicipalitiesByCode(languages, code, pageable)
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 }

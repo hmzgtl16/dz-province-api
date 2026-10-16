@@ -27,11 +27,6 @@ interface ProvinceService {
         pageable: Pageable,
     ): Page<ProvinceResponse>
 
-    fun getProvinceBySlug(
-        languages: List<String>,
-        slug: String,
-    ): ProvinceResponse
-
     fun getProvinceByCode(
         languages: List<String>,
         code: Short,

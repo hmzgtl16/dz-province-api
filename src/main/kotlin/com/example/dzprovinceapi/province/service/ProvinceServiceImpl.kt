@@ -22,7 +22,6 @@ import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import com.example.dzprovinceapi.province.domain.ProvinceRepository
 import com.example.dzprovinceapi.province.mapping.toResponse
 import com.example.dzprovinceapi.shared.error.ProvinceCodeNotFoundException
-import com.example.dzprovinceapi.shared.error.ProvinceSlugNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -45,22 +44,6 @@ class ProvinceServiceImpl(
             provinces.map {
                 it.toResponse(languages.normalizeOrDefaults())
             }
-
-        return response
-    }
-
-    @Transactional(readOnly = true)
-    override fun getProvinceBySlug(
-        languages: List<String>,
-        slug: String,
-    ): ProvinceResponse {
-        val province =
-            provinceRepository
-                .findProvinceBySlug(slug)
-                ?: throw ProvinceSlugNotFoundException(slug)
-        val response =
-            province
-                .toResponse(languages.normalizeOrDefaults())
 
         return response
     }
