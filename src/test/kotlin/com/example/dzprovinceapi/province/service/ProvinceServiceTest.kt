@@ -57,7 +57,7 @@ class ProvinceServiceTest {
         val provincePage = PageImpl(listOf(province), pageable, 1)
         `when`(provinceRepository.findAll(pageable)).thenReturn(provincePage)
 
-        val result = provinceService.getAllProvinces(emptyList(), pageable)
+        val result = provinceService.getProvinces(emptyList(), pageable)
 
         assertThat(result.totalElements).isEqualTo(1)
         assertThat(result.content).isNotEmpty
@@ -96,7 +96,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findAll(pageable))
             .thenReturn(PageImpl(listOf(province), pageable, 1))
 
-        val result = provinceService.getAllProvinces(emptyList(), pageable)
+        val result = provinceService.getProvinces(emptyList(), pageable)
 
         assertThat(result.totalElements).isEqualTo(1)
         assertThat(result.content).isNotEmpty
@@ -136,7 +136,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findAll(pageable))
             .thenReturn(PageImpl(listOf(province), pageable, 1))
 
-        val result = provinceService.getAllProvinces(listOf("en"), pageable)
+        val result = provinceService.getProvinces(listOf("en"), pageable)
 
         assertThat(result.content[0].names).hasSize(1)
         assertThat(
@@ -180,7 +180,7 @@ class ProvinceServiceTest {
 
         // " EN ", "fr,ar", "en" -> ["en", "fr", "ar"]; "12" and "e" are invalid and dropped.
         val result =
-            provinceService.getAllProvinces(
+            provinceService.getProvinces(
                 listOf(" EN ", "fr,ar", "en", "12", "e"),
                 pageable,
             )
@@ -220,7 +220,7 @@ class ProvinceServiceTest {
             .thenReturn(PageImpl(listOf(province), pageable, 1))
 
         val result =
-            provinceService.getAllProvinces(listOf("1", "!!", "", "e"), pageable)
+            provinceService.getProvinces(listOf("1", "!!", "", "e"), pageable)
 
         assertThat(result.content[0].names.map { it.language?.code })
             .containsExactlyInAnyOrder("ar", "en", "fr")
@@ -234,7 +234,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findAll(pageable))
             .thenReturn(PageImpl(emptyList(), pageable, 0))
 
-        val result = provinceService.getAllProvinces(emptyList(), pageable)
+        val result = provinceService.getProvinces(emptyList(), pageable)
 
         assertThat(result.totalElements).isZero()
         assertThat(result.content).isEmpty()
@@ -272,7 +272,7 @@ class ProvinceServiceTest {
 
         `when`(provinceRepository.findProvinceBySlug("algiers")).thenReturn(province)
 
-        val result = provinceService.getBySlug(emptyList(), "algiers")
+        val result = provinceService.getProvinceBySlug(emptyList(), "algiers")
 
         assertThat(result.code).isEqualTo("16")
         assertThat(result.slug).isEqualTo("algiers")
@@ -288,7 +288,7 @@ class ProvinceServiceTest {
     fun `getBySlug throws ProvinceSlugNotFoundException when no province matches`() {
         `when`(provinceRepository.findProvinceBySlug("unknown")).thenReturn(null)
 
-        assertThatThrownBy { provinceService.getBySlug(emptyList(), "unknown") }
+        assertThatThrownBy { provinceService.getProvinceBySlug(emptyList(), "unknown") }
             .isInstanceOf(ProvinceSlugNotFoundException::class.java)
 
         verify(provinceRepository).findProvinceBySlug("unknown")
@@ -321,7 +321,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findProvinceBySlug("algiers")).thenReturn(province)
 
         val result =
-            provinceService.getBySlug(listOf(" FR ", "en,AR", "fr"), "algiers")
+            provinceService.getProvinceBySlug(listOf(" FR ", "en,AR", "fr"), "algiers")
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("fr", "en", "ar")
@@ -355,7 +355,7 @@ class ProvinceServiceTest {
 
         `when`(provinceRepository.findProvinceBySlug("algiers")).thenReturn(province)
 
-        val result = provinceService.getBySlug(emptyList(), "algiers")
+        val result = provinceService.getProvinceBySlug(emptyList(), "algiers")
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("ar", "en", "fr")
@@ -393,7 +393,7 @@ class ProvinceServiceTest {
 
         `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
-        val result = provinceService.getByCode(emptyList(), 16)
+        val result = provinceService.getProvinceByCode(emptyList(), 16)
 
         assertThat(result.code).isEqualTo("16")
         assertThat(result.slug).isEqualTo("algiers")
@@ -407,7 +407,7 @@ class ProvinceServiceTest {
     fun `getByCode throws ProvinceCodeNotFoundException when no province matches`() {
         `when`(provinceRepository.findProvinceByCode(99)).thenReturn(null)
 
-        assertThatThrownBy { provinceService.getByCode(emptyList(), 99) }
+        assertThatThrownBy { provinceService.getProvinceByCode(emptyList(), 99) }
             .isInstanceOf(ProvinceCodeNotFoundException::class.java)
 
         verify(provinceRepository).findProvinceByCode(99)
@@ -440,7 +440,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
         val result =
-            provinceService.getByCode(listOf("EN, fr", "en", "!"), 16)
+            provinceService.getProvinceByCode(listOf("EN, fr", "en", "!"), 16)
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("en", "fr")
@@ -474,7 +474,7 @@ class ProvinceServiceTest {
 
         `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
-        val result = provinceService.getByCode(emptyList(), 16)
+        val result = provinceService.getProvinceByCode(emptyList(), 16)
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("ar", "en", "fr")
