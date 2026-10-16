@@ -44,4 +44,18 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
             title = "District not found"
             type = URI.create("about:blank")
         }
+
+    @ExceptionHandler(MunicipalityCodeNotFoundException::class)
+    fun handleMunicipalityCodeNotFound(ex: MunicipalityCodeNotFoundException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message).apply {
+            title = "Municipality not found"
+            type = URI.create("about:blank")
+        }
+
+    @ExceptionHandler(MunicipalitySlugNotFoundException::class)
+    fun handleMunicipalitySlugNotFound(ex: MunicipalitySlugNotFoundException): ProblemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message).apply {
+            title = "Municipality not found"
+            type = URI.create("about:blank")
+        }
 }

@@ -17,7 +17,6 @@ package com.example.dzprovinceapi.municipality.api
 
 import com.example.dzprovinceapi.municipality.api.dto.MunicipalityResponse
 import com.example.dzprovinceapi.municipality.service.MunicipalityService
-import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -44,7 +43,7 @@ class MunicipalityController(
     }
 
     @GetMapping("/slug/{slug}")
-    fun getProvinceBySlug(
+    fun getMunicipalityBySlug(
         @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
         @PathVariable slug: String,
     ): ResponseEntity<MunicipalityResponse> {
@@ -52,12 +51,12 @@ class MunicipalityController(
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 
-    @GetMapping("/slug/{slug}")
-    fun getMunicipalityBySlug(
+    @GetMapping("/code/{code}")
+    fun getMunicipalityByCode(
         @RequestParam(name = "lang", defaultValue = "") languages: List<String>,
-        @PathVariable slug: String,
+        @PathVariable code: Short,
     ): ResponseEntity<MunicipalityResponse> {
-        val response = municipalityService.getBySlug(languages, slug)
+        val response = municipalityService.getByCode(languages, code)
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 }
