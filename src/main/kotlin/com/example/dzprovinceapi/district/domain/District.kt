@@ -15,6 +15,7 @@
  */
 package com.example.dzprovinceapi.district.domain
 
+import com.example.dzprovinceapi.municipality.domain.Municipality
 import com.example.dzprovinceapi.province.domain.Province
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -22,12 +23,8 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
-import jakarta.persistence.MapsId
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-import org.hibernate.annotations.ColumnDefault
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import java.util.UUID
@@ -49,4 +46,7 @@ class District {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "province_id")
     var province: Province? = null
+
+    @OneToMany(mappedBy = "district")
+    var municipalities: MutableSet<Municipality> = mutableSetOf()
 }
