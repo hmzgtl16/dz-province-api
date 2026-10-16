@@ -43,3 +43,18 @@ CREATE TABLE IF NOT EXISTS district_translation (
   name VARCHAR(150) NOT NULL,
   PRIMARY KEY (district_id, language_id)
 );
+
+CREATE TABLE IF NOT EXISTS municipality (
+  id UUID PRIMARY KEY,
+  slug VARCHAR(100) NOT NULL UNIQUE,
+  code SMALLINT NOT NULL UNIQUE,
+  district_id UUID NOT NULL REFERENCES district (id) ON DELETE RESTRICT,
+  CONSTRAINT uq_municipality_district_slug UNIQUE (district_id, slug)
+);
+
+CREATE TABLE IF NOT EXISTS municipality_translation (
+  language_id UUID NOT NULL REFERENCES language (id) ON DELETE RESTRICT,
+  municipality_id UUID NOT NULL REFERENCES municipality (id) ON DELETE CASCADE,
+  name VARCHAR(150) NOT NULL,
+  PRIMARY KEY (municipality_id, language_id)
+);

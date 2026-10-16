@@ -38,6 +38,8 @@ spring:
         - classpath:db/test-province-translation-data.sql
         - classpath:db/test-district-data.sql
         - classpath:db/test-district-translation-data.sql
+        - classpath:db/test-municipality-data.sql
+        - classpath:db/test-municipality-translation-data.sql
   cache:
     type: none
 bucket4j:
