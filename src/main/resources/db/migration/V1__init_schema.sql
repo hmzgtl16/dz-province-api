@@ -66,3 +66,10 @@ CREATE INDEX IF NOT EXISTS idx_province_translation_name_trgm ON public.province
 CREATE INDEX IF NOT EXISTS idx_district_translation_name_trgm ON public.district_translation USING gin (name gin_trgm_ops);
 
 CREATE INDEX IF NOT EXISTS idx_municipality_translation_name_trgm ON public.municipality_translation USING gin (name gin_trgm_ops);
+
+INSERT INTO
+  public.language (code, name)
+VALUES
+  ('fr', 'Français'),
+  ('ar', 'العربية'),
+  ('en', 'English');
