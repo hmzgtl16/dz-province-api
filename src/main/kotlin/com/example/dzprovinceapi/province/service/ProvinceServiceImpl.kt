@@ -15,23 +15,27 @@
  */
 package com.example.dzprovinceapi.province.service
 
+import com.example.dzprovinceapi.district.api.dto.DistrictResponse
+import com.example.dzprovinceapi.district.domain.District
+import com.example.dzprovinceapi.municipality.api.dto.MunicipalityResponse
 import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
-import com.example.dzprovinceapi.province.domain.Province
 import com.example.dzprovinceapi.province.domain.ProvinceRepository
 import com.example.dzprovinceapi.province.mapping.toResponse
 import com.example.dzprovinceapi.shared.error.ProvinceCodeNotFoundException
-import com.example.dzprovinceapi.shared.error.ProvinceSlugNotFoundException
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import com.example.dzprovinceapi.district.mapping.toResponse as toDistrictResponse
+import com.example.dzprovinceapi.municipality.mapping.toResponse as toMunicipalityResponse
 
 @Service
 class ProvinceServiceImpl(
     private val provinceRepository: ProvinceRepository,
 ) : ProvinceService {
     @Transactional(readOnly = true)
-    override fun getAllProvinces(
+    override fun getProvinces(
         languages: List<String>,
         pageable: Pageable,
     ): Page<ProvinceResponse> {
@@ -45,23 +49,7 @@ class ProvinceServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun getBySlug(
-        languages: List<String>,
-        slug: String,
-    ): ProvinceResponse {
-        val province =
-            provinceRepository
-                .findProvinceBySlug(slug)
-                ?: throw ProvinceSlugNotFoundException(slug)
-        val response =
-            province
-                .toResponse(languages.normalizeOrDefaults())
-
-        return response
-    }
-
-    @Transactional(readOnly = true)
-    override fun getByCode(
+    override fun getProvinceByCode(
         languages: List<String>,
         code: Short,
     ): ProvinceResponse {
@@ -74,6 +62,52 @@ class ProvinceServiceImpl(
                 .toResponse(languages.normalizeOrDefaults())
 
         return response
+    }
+
+    @Transactional(readOnly = true)
+    override fun getProvinceDistrictsByCode(
+        languages: List<String>,
+        code: Short,
+        pageable: Pageable,
+    ): Page<DistrictResponse> {
+        val province =
+            provinceRepository
+                .findProvinceByCode(code)
+                ?: throw ProvinceCodeNotFoundException(code)
+
+        val districts =
+            province
+                .districts
+                .map { it.toDistrictResponse(languages.normalizeOrDefaults()) }
+
+        return PageImpl(
+            districts,
+            pageable,
+            districts.size.toLong(),
+        )
+    }
+
+    override fun getProvinceMunicipalitiesByCode(
+        languages: List<String>,
+        code: Short,
+        pageable: Pageable,
+    ): Page<MunicipalityResponse> {
+        val province =
+            provinceRepository
+                .findProvinceByCode(code)
+                ?: throw ProvinceCodeNotFoundException(code)
+
+        val municipalities =
+            province
+                .districts
+                .flatMap(District::municipalities)
+                .map { it.toMunicipalityResponse(languages.normalizeOrDefaults()) }
+
+        return PageImpl(
+            municipalities,
+            pageable,
+            municipalities.size.toLong(),
+        )
     }
 
     private fun List<String>.normalizeOrDefaults(): List<String> =

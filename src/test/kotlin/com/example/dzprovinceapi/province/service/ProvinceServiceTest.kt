@@ -15,7 +15,11 @@
  */
 package com.example.dzprovinceapi.province.service
 
+import com.example.dzprovinceapi.helpers.testDistrict
+import com.example.dzprovinceapi.helpers.testDistrictTranslation
 import com.example.dzprovinceapi.helpers.testLanguage
+import com.example.dzprovinceapi.helpers.testMunicipality
+import com.example.dzprovinceapi.helpers.testMunicipalityTranslation
 import com.example.dzprovinceapi.helpers.testProvince
 import com.example.dzprovinceapi.helpers.testProvinceTranslation
 import com.example.dzprovinceapi.province.domain.ProvinceRepository
@@ -57,7 +61,7 @@ class ProvinceServiceTest {
         val provincePage = PageImpl(listOf(province), pageable, 1)
         `when`(provinceRepository.findAll(pageable)).thenReturn(provincePage)
 
-        val result = provinceService.getAllProvinces(emptyList(), pageable)
+        val result = provinceService.getProvinces(emptyList(), pageable)
 
         assertThat(result.totalElements).isEqualTo(1)
         assertThat(result.content).isNotEmpty
@@ -96,7 +100,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findAll(pageable))
             .thenReturn(PageImpl(listOf(province), pageable, 1))
 
-        val result = provinceService.getAllProvinces(emptyList(), pageable)
+        val result = provinceService.getProvinces(emptyList(), pageable)
 
         assertThat(result.totalElements).isEqualTo(1)
         assertThat(result.content).isNotEmpty
@@ -136,7 +140,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findAll(pageable))
             .thenReturn(PageImpl(listOf(province), pageable, 1))
 
-        val result = provinceService.getAllProvinces(listOf("en"), pageable)
+        val result = provinceService.getProvinces(listOf("en"), pageable)
 
         assertThat(result.content[0].names).hasSize(1)
         assertThat(
@@ -180,7 +184,7 @@ class ProvinceServiceTest {
 
         // " EN ", "fr,ar", "en" -> ["en", "fr", "ar"]; "12" and "e" are invalid and dropped.
         val result =
-            provinceService.getAllProvinces(
+            provinceService.getProvinces(
                 listOf(" EN ", "fr,ar", "en", "12", "e"),
                 pageable,
             )
@@ -220,7 +224,7 @@ class ProvinceServiceTest {
             .thenReturn(PageImpl(listOf(province), pageable, 1))
 
         val result =
-            provinceService.getAllProvinces(listOf("1", "!!", "", "e"), pageable)
+            provinceService.getProvinces(listOf("1", "!!", "", "e"), pageable)
 
         assertThat(result.content[0].names.map { it.language?.code })
             .containsExactlyInAnyOrder("ar", "en", "fr")
@@ -234,133 +238,12 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findAll(pageable))
             .thenReturn(PageImpl(emptyList(), pageable, 0))
 
-        val result = provinceService.getAllProvinces(emptyList(), pageable)
+        val result = provinceService.getProvinces(emptyList(), pageable)
 
         assertThat(result.totalElements).isZero()
         assertThat(result.content).isEmpty()
 
         verify(provinceRepository).findAll(pageable)
-    }
-
-    // ------------------------------------------------------------------
-    // getBySlug
-    // ------------------------------------------------------------------
-
-    @Test
-    fun `getBySlug returns the mapped response`() {
-        val id = UUID.randomUUID()
-        val province =
-            testProvince(
-                id = id,
-                code = 16,
-                slug = "algiers",
-                translations =
-                    setOf(
-                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testProvinceTranslation(
-                            provinceId = id,
-                            name = "Algiers",
-                            language = testLanguage(code = "en"),
-                        ),
-                        testProvinceTranslation(
-                            provinceId = id,
-                            name = "الجزائر",
-                            language = testLanguage(code = "ar"),
-                        ),
-                    ),
-            )
-
-        `when`(provinceRepository.findProvinceBySlug("algiers")).thenReturn(province)
-
-        val result = provinceService.getBySlug(emptyList(), "algiers")
-
-        assertThat(result.code).isEqualTo("16")
-        assertThat(result.slug).isEqualTo("algiers")
-        assertThat(result.names.map { it.name })
-            .containsExactlyInAnyOrder("Alger", "Algiers", "الجزائر")
-        assertThat(result.names.map { it.language?.code })
-            .containsExactlyInAnyOrder("ar", "en", "fr")
-
-        verify(provinceRepository).findProvinceBySlug("algiers")
-    }
-
-    @Test
-    fun `getBySlug throws ProvinceSlugNotFoundException when no province matches`() {
-        `when`(provinceRepository.findProvinceBySlug("unknown")).thenReturn(null)
-
-        assertThatThrownBy { provinceService.getBySlug(emptyList(), "unknown") }
-            .isInstanceOf(ProvinceSlugNotFoundException::class.java)
-
-        verify(provinceRepository).findProvinceBySlug("unknown")
-    }
-
-    @Test
-    fun `getBySlug normalizes the given languages`() {
-        val id = UUID.randomUUID()
-        val province =
-            testProvince(
-                id = id,
-                code = 16,
-                slug = "algiers",
-                translations =
-                    setOf(
-                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testProvinceTranslation(
-                            provinceId = id,
-                            name = "Algiers",
-                            language = testLanguage(code = "en"),
-                        ),
-                        testProvinceTranslation(
-                            provinceId = id,
-                            name = "الجزائر",
-                            language = testLanguage(code = "ar"),
-                        ),
-                    ),
-            )
-
-        `when`(provinceRepository.findProvinceBySlug("algiers")).thenReturn(province)
-
-        val result =
-            provinceService.getBySlug(listOf(" FR ", "en,AR", "fr"), "algiers")
-
-        assertThat(result.names.map { it.language?.code })
-            .containsExactlyInAnyOrder("fr", "en", "ar")
-
-        verify(provinceRepository).findProvinceBySlug("algiers")
-    }
-
-    @Test
-    fun `getBySlug falls back to default languages when none are provided`() {
-        val id = UUID.randomUUID()
-        val province =
-            testProvince(
-                id = id,
-                code = 16,
-                slug = "algiers",
-                translations =
-                    setOf(
-                        testProvinceTranslation(provinceId = id, name = "Alger", language = testLanguage(code = "fr")),
-                        testProvinceTranslation(
-                            provinceId = id,
-                            name = "Algiers",
-                            language = testLanguage(code = "en"),
-                        ),
-                        testProvinceTranslation(
-                            provinceId = id,
-                            name = "الجزائر",
-                            language = testLanguage(code = "ar"),
-                        ),
-                    ),
-            )
-
-        `when`(provinceRepository.findProvinceBySlug("algiers")).thenReturn(province)
-
-        val result = provinceService.getBySlug(emptyList(), "algiers")
-
-        assertThat(result.names.map { it.language?.code })
-            .containsExactlyInAnyOrder("ar", "en", "fr")
-
-        verify(provinceRepository).findProvinceBySlug("algiers")
     }
 
     // ------------------------------------------------------------------
@@ -393,7 +276,7 @@ class ProvinceServiceTest {
 
         `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
-        val result = provinceService.getByCode(emptyList(), 16)
+        val result = provinceService.getProvinceByCode(emptyList(), 16)
 
         assertThat(result.code).isEqualTo("16")
         assertThat(result.slug).isEqualTo("algiers")
@@ -407,7 +290,7 @@ class ProvinceServiceTest {
     fun `getByCode throws ProvinceCodeNotFoundException when no province matches`() {
         `when`(provinceRepository.findProvinceByCode(99)).thenReturn(null)
 
-        assertThatThrownBy { provinceService.getByCode(emptyList(), 99) }
+        assertThatThrownBy { provinceService.getProvinceByCode(emptyList(), 99) }
             .isInstanceOf(ProvinceCodeNotFoundException::class.java)
 
         verify(provinceRepository).findProvinceByCode(99)
@@ -440,7 +323,7 @@ class ProvinceServiceTest {
         `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
         val result =
-            provinceService.getByCode(listOf("EN, fr", "en", "!"), 16)
+            provinceService.getProvinceByCode(listOf("EN, fr", "en", "!"), 16)
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("en", "fr")
@@ -474,10 +357,299 @@ class ProvinceServiceTest {
 
         `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
 
-        val result = provinceService.getByCode(emptyList(), 16)
+        val result = provinceService.getProvinceByCode(emptyList(), 16)
 
         assertThat(result.names.map { it.language?.code })
             .containsExactlyInAnyOrder("ar", "en", "fr")
+
+        verify(provinceRepository).findProvinceByCode(16)
+    }
+
+    // ------------------------------------------------------------------
+    // getProvinceDistrictsByCode
+    // ------------------------------------------------------------------
+
+    @Test
+    fun `getProvinceDistrictsByCode returns a page of mapped district responses`() {
+        val districtId = UUID.randomUUID()
+        val district =
+            testDistrict(
+                id = districtId,
+                slug = "bab-el-oued",
+                translations =
+                    setOf(
+                        testDistrictTranslation(
+                            districtId = districtId,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "fr"),
+                        ),
+                        testDistrictTranslation(
+                            districtId = districtId,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testDistrictTranslation(
+                            districtId = districtId,
+                            name = "باب الوادي",
+                            language = testLanguage(code = "ar"),
+                        ),
+                    ),
+            )
+        val province =
+            testProvince(
+                code = 16,
+                slug = "algiers",
+                districts = setOf(district),
+            )
+
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
+
+        val result = provinceService.getProvinceDistrictsByCode(emptyList(), 16, pageable)
+
+        assertThat(result.totalElements).isEqualTo(1)
+        assertThat(result.content).hasSize(1)
+        assertThat(result.content[0].slug).isEqualTo("bab-el-oued")
+        assertThat(result.content[0].names.map { it.language?.code })
+            .containsExactlyInAnyOrder("ar", "en", "fr")
+
+        verify(provinceRepository).findProvinceByCode(16)
+    }
+
+    @Test
+    fun `getProvinceDistrictsByCode throws ProvinceCodeNotFoundException when no province matches`() {
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(99)).thenReturn(null)
+
+        assertThatThrownBy { provinceService.getProvinceDistrictsByCode(emptyList(), 99, pageable) }
+            .isInstanceOf(ProvinceCodeNotFoundException::class.java)
+
+        verify(provinceRepository).findProvinceByCode(99)
+    }
+
+    @Test
+    fun `getProvinceDistrictsByCode filters and normalizes the given languages`() {
+        val districtId = UUID.randomUUID()
+        val district =
+            testDistrict(
+                id = districtId,
+                slug = "bab-el-oued",
+                translations =
+                    setOf(
+                        testDistrictTranslation(
+                            districtId = districtId,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "fr"),
+                        ),
+                        testDistrictTranslation(
+                            districtId = districtId,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testDistrictTranslation(
+                            districtId = districtId,
+                            name = "باب الوادي",
+                            language = testLanguage(code = "ar"),
+                        ),
+                    ),
+            )
+        val province =
+            testProvince(
+                code = 16,
+                slug = "algiers",
+                districts = setOf(district),
+            )
+
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
+
+        val result =
+            provinceService.getProvinceDistrictsByCode(listOf("EN, fr", "en", "!"), 16, pageable)
+
+        assertThat(result.content[0].names.map { it.language?.code })
+            .containsExactlyInAnyOrder("en", "fr")
+
+        verify(provinceRepository).findProvinceByCode(16)
+    }
+
+    @Test
+    fun `getProvinceDistrictsByCode returns an empty page when province has no districts`() {
+        val province =
+            testProvince(
+                code = 16,
+                slug = "algiers",
+                districts = emptySet(),
+            )
+
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
+
+        val result = provinceService.getProvinceDistrictsByCode(emptyList(), 16, pageable)
+
+        assertThat(result.totalElements).isZero()
+        assertThat(result.content).isEmpty()
+
+        verify(provinceRepository).findProvinceByCode(16)
+    }
+
+    // ------------------------------------------------------------------
+    // getProvinceMunicipalitiesByCode
+    // ------------------------------------------------------------------
+
+    @Test
+    fun `getProvinceMunicipalitiesByCode returns a page of flattened municipality responses across districts`() {
+        val municipality1Id = UUID.randomUUID()
+        val municipality1 =
+            testMunicipality(
+                id = municipality1Id,
+                code = 1601,
+                slug = "bab-el-oued",
+                translations =
+                    setOf(
+                        testMunicipalityTranslation(
+                            municipalityId = municipality1Id,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "fr"),
+                        ),
+                        testMunicipalityTranslation(
+                            municipalityId = municipality1Id,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testMunicipalityTranslation(
+                            municipalityId = municipality1Id,
+                            name = "باب الوادي",
+                            language = testLanguage(code = "ar"),
+                        ),
+                    ),
+            )
+
+        val municipality2Id = UUID.randomUUID()
+        val municipality2 =
+            testMunicipality(
+                id = municipality2Id,
+                code = 1602,
+                slug = "casbah",
+                translations =
+                    setOf(
+                        testMunicipalityTranslation(
+                            municipalityId = municipality2Id,
+                            name = "Casbah",
+                            language = testLanguage(code = "fr"),
+                        ),
+                        testMunicipalityTranslation(
+                            municipalityId = municipality2Id,
+                            name = "Casbah",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testMunicipalityTranslation(
+                            municipalityId = municipality2Id,
+                            name = "القصبة",
+                            language = testLanguage(code = "ar"),
+                        ),
+                    ),
+            )
+
+        val district1 = testDistrict(slug = "bab-el-oued", municipalities = setOf(municipality1))
+        val district2 = testDistrict(slug = "sidi-m-hamed", municipalities = setOf(municipality2))
+
+        val province =
+            testProvince(
+                code = 16,
+                slug = "algiers",
+                districts = setOf(district1, district2),
+            )
+
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
+
+        val result = provinceService.getProvinceMunicipalitiesByCode(emptyList(), 16, pageable)
+
+        assertThat(result.totalElements).isEqualTo(2)
+        assertThat(result.content).hasSize(2)
+        assertThat(result.content.map { it.slug })
+            .containsExactlyInAnyOrder("bab-el-oued", "casbah")
+        assertThat(result.content[0].names.map { it.language?.code })
+            .containsExactlyInAnyOrder("ar", "en", "fr")
+
+        verify(provinceRepository).findProvinceByCode(16)
+    }
+
+    @Test
+    fun `getProvinceMunicipalitiesByCode throws ProvinceCodeNotFoundException when no province matches`() {
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(99)).thenReturn(null)
+
+        assertThatThrownBy { provinceService.getProvinceMunicipalitiesByCode(emptyList(), 99, pageable) }
+            .isInstanceOf(ProvinceCodeNotFoundException::class.java)
+
+        verify(provinceRepository).findProvinceByCode(99)
+    }
+
+    @Test
+    fun `getProvinceMunicipalitiesByCode filters and normalizes the given languages`() {
+        val municipalityId = UUID.randomUUID()
+        val municipality =
+            testMunicipality(
+                id = municipalityId,
+                code = 1601,
+                slug = "bab-el-oued",
+                translations =
+                    setOf(
+                        testMunicipalityTranslation(
+                            municipalityId = municipalityId,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "fr"),
+                        ),
+                        testMunicipalityTranslation(
+                            municipalityId = municipalityId,
+                            name = "Bab El Oued",
+                            language = testLanguage(code = "en"),
+                        ),
+                        testMunicipalityTranslation(
+                            municipalityId = municipalityId,
+                            name = "باب الوادي",
+                            language = testLanguage(code = "ar"),
+                        ),
+                    ),
+            )
+        val district = testDistrict(slug = "bab-el-oued", municipalities = setOf(municipality))
+        val province =
+            testProvince(
+                code = 16,
+                slug = "algiers",
+                districts = setOf(district),
+            )
+
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
+
+        val result =
+            provinceService.getProvinceMunicipalitiesByCode(listOf(" AR , en ", "12", "!"), 16, pageable)
+
+        assertThat(result.content[0].names.map { it.language?.code })
+            .containsExactlyInAnyOrder("ar", "en")
+
+        verify(provinceRepository).findProvinceByCode(16)
+    }
+
+    @Test
+    fun `getProvinceMunicipalitiesByCode returns an empty page when province districts have no municipalities`() {
+        val district = testDistrict(slug = "bab-el-oued", municipalities = emptySet())
+        val province =
+            testProvince(
+                code = 16,
+                slug = "algiers",
+                districts = setOf(district),
+            )
+
+        val pageable = PageRequest.of(0, 10)
+        `when`(provinceRepository.findProvinceByCode(16)).thenReturn(province)
+
+        val result = provinceService.getProvinceMunicipalitiesByCode(emptyList(), 16, pageable)
+
+        assertThat(result.totalElements).isZero()
+        assertThat(result.content).isEmpty()
 
         verify(provinceRepository).findProvinceByCode(16)
     }

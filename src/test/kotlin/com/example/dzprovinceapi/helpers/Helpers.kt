@@ -32,12 +32,14 @@ fun testProvince(
     code: Short,
     slug: String,
     translations: Set<ProvinceTranslation> = emptySet(),
+    districts: Set<District> = emptySet(),
 ): Province =
     Province().apply {
         this.id = id
         this.code = code
         this.slug = slug
         this.provinceTranslations = translations.toMutableSet()
+        this.districts = districts.toMutableSet()
     }
 
 fun testProvinceTranslation(
@@ -76,11 +78,13 @@ fun testDistrict(
     id: UUID = UUID.randomUUID(),
     slug: String,
     translations: Set<DistrictTranslation> = emptySet(),
+    municipalities: Set<Municipality> = emptySet(),
 ): District =
     District().apply {
         this.id = id
         this.slug = slug
         this.districtTranslations = translations.toMutableSet()
+        this.municipalities = municipalities.toMutableSet()
     }
 
 fun testDistrictTranslation(

@@ -15,23 +15,32 @@
  */
 package com.example.dzprovinceapi.province.service
 
+import com.example.dzprovinceapi.district.api.dto.DistrictResponse
+import com.example.dzprovinceapi.municipality.api.dto.MunicipalityResponse
 import com.example.dzprovinceapi.province.api.dto.ProvinceResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface ProvinceService {
-    fun getAllProvinces(
+    fun getProvinces(
         languages: List<String>,
         pageable: Pageable,
     ): Page<ProvinceResponse>
 
-    fun getBySlug(
-        languages: List<String>,
-        slug: String,
-    ): ProvinceResponse
-
-    fun getByCode(
+    fun getProvinceByCode(
         languages: List<String>,
         code: Short,
     ): ProvinceResponse
+
+    fun getProvinceDistrictsByCode(
+        languages: List<String>,
+        code: Short,
+        pageable: Pageable,
+    ): Page<DistrictResponse>
+
+    fun getProvinceMunicipalitiesByCode(
+        languages: List<String>,
+        code: Short,
+        pageable: Pageable,
+    ): Page<MunicipalityResponse>
 }
